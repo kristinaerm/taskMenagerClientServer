@@ -14,17 +14,25 @@ import javax.swing.JFrame;
  */
 public class NotificationTimerTasks extends TimerTask {
     
-    private static int n;
+    private static int num;
+    private static String name;
+    private static String time;
+    private static String descr;
+    private static String cont;
     
-    public NotificationTimerTasks(int num){
-        n=num;
+    public NotificationTimerTasks(int nu, String n, String t, String d, String c){
+        num=nu;
+        name = n;
+        time = t;
+        descr = d;
+        cont = c;
     }
 
     @Override
     public void run() {
-        SimpleNotification[] frames = new SimpleNotification[n];
-        for (int i = 0; i < n; i++) {
-            frames[i] = new SimpleNotification(i);
+        SimpleNotification[] frames = new SimpleNotification[num];
+        for (int i = 0; i < num; i++) {
+            frames[i] = new SimpleNotification(i, name, time, descr, cont);
             frames[i].setResizable(false);
             frames[i].pack();
             frames[i].setLocationRelativeTo(null);

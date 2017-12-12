@@ -5,11 +5,8 @@
  */
 package view;
 
-import exceptions.InvalidRecordFieldException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import clientmenager.Controller;
 import javax.swing.JOptionPane;
-import model.*;
 
 /**
  *
@@ -20,21 +17,20 @@ public class ChangeRecord extends javax.swing.JFrame {
     /**
      * Creates new form ChandeRecord
      */
-    Record currentRec;
-    int num=0;
+    
+    private int num=0;
     
     public ChangeRecord() {
         initComponents();
     }
     
-    public ChangeRecord(int n) {
+    public ChangeRecord(int nu, String n, String t, String d, String c) {
         initComponents();
-        num = n;
-        currentRec = Transfer.tl.getRecord(n);
-        jTextField1.setText(currentRec.getTimeString());
-        jTextField2.setText(currentRec.getName());
-        jTextField3.setText(currentRec.getDescription());
-        jTextField4.setText(currentRec.getContacts());
+        num = nu;
+        jTextField1.setText(t);
+        jTextField2.setText(n);
+        jTextField3.setText(d);
+        jTextField4.setText(c);
     }
 
     /**
@@ -143,8 +139,8 @@ public class ChangeRecord extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            Transfer.tl.changeRecord(num, jTextField2.getText(), jTextField1.getText(), jTextField3.getText(), jTextField4.getText());
-        } catch (InvalidRecordFieldException ex) {
+            Controller.changeRecord(num, jTextField2.getText(), jTextField1.getText(), jTextField3.getText(), jTextField4.getText());
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         this.dispose();

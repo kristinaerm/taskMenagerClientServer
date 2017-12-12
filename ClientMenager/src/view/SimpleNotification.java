@@ -27,9 +27,9 @@ public class SimpleNotification extends javax.swing.JFrame {
         initComponents();
     }
 
-    public SimpleNotification(int num) {
+    public SimpleNotification(int nu, String n, String t, String d, String c) {
         initComponents();
-        n=num;
+        n=nu;
         currentTaskLog = Transfer.tl;
         currentRec = Transfer.tl.getRecord(n);
         jTextField1.setText(currentRec.getTimeString());
