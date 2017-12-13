@@ -41,8 +41,6 @@ public class ServerMenager {
         int countTask = 0;
         Record rec;
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-//            // Создается дерево DOM документа из файла
-        //Document document = documentBuilder.parse("Catalog.xml");
         Document document = documentBuilder.parse("other.xml");
         Loaders load = new Loaders();
         load.setLoaders('X');
