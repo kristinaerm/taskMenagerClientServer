@@ -247,6 +247,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
         Record rec = null;
         if ((!"".equals(jTextField1.getText())) && (!"".equals(jTextField2.getText())) && (!"".equals(jTextField3.getText())) && (!"".equals(jTextField4.getText()))) {
 
