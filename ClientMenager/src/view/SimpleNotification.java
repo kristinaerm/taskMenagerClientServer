@@ -5,12 +5,8 @@
  */
 package view;
 
-import exceptions.InvalidRecordFieldException;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Record;
-import model.TaskLog;
+import clientmenager.Controller;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,7 +17,7 @@ public class SimpleNotification extends javax.swing.JFrame {
     /**
      * Creates new form NotificationInterface
      */
-    private int n;
+    private int number;
     
     public SimpleNotification() {
         initComponents();
@@ -29,13 +25,11 @@ public class SimpleNotification extends javax.swing.JFrame {
 
     public SimpleNotification(int nu, String n, String t, String d, String c) {
         initComponents();
-        n=nu;
-        currentTaskLog = Transfer.tl;
-        currentRec = Transfer.tl.getRecord(n);
-        jTextField1.setText(currentRec.getTimeString());
-        jTextField2.setText(currentRec.getName());
-        jTextField3.setText(currentRec.getDescription());
-        jTextField4.setText(currentRec.getContacts());
+        number=nu;
+        jTextField1.setText(t);
+        jTextField2.setText(n);
+        jTextField3.setText(d);
+        jTextField4.setText(c);
     }
 
     /**
@@ -154,21 +148,22 @@ public class SimpleNotification extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        currentTaskLog.deleteRecord(n);
-        currentTaskLog.updateTable();
+        Controller.deleteRecord(number);
+        Controller.updateTable();
         this.dispose();
-        //закрыть
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
         try {
-            currentTaskLog.changeRecord(n, currentRec.getName(), jTextField5.getText(), currentRec.getDescription(), currentRec.getContacts());
-            currentTaskLog.updateTable();
-            this.dispose();
-        } catch (InvalidRecordFieldException ex) {
-            jTextField1.setText(ex.getMessage());
+            String result = Controller.changeRecord(number, jTextField2.getText(), jTextField5.getText(), jTextField3.getText(), jTextField4.getText());
+            if (result.equals("OK")){
+                Controller.updateTable();
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, result);
+            }            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
 
         //закрыть
@@ -217,8 +212,6 @@ public class SimpleNotification extends javax.swing.JFrame {
             }
         });
     }
-    private Record currentRec;
-    private TaskLog currentTaskLog;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
