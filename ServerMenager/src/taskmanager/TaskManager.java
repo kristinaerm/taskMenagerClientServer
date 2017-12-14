@@ -12,7 +12,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import view.SimpleTaskManager;
+//import view.SimpleTaskManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,10 +53,10 @@ public class TaskManager {
 //        User u = new User("i", "login", "pass", list);
 //        //запись и считывание из xml
 //        // Создается построитель документа
-        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      // DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 //            // Создается дерево DOM документа из файла
         //Document document = documentBuilder.parse("Catalog.xml");
-        Document document = documentBuilder.parse("other.xml");
+     /*   Document document = documentBuilder.parse("other.xml");
         Loaders load = new Loaders();
         load.setLoaders('X');
         User u = load.readDocument(document);
@@ -123,7 +123,7 @@ public class TaskManager {
             public void windowDeactivated(WindowEvent e) {
 
             }
-        });
+        });*/
 
     }
 
