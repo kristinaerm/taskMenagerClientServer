@@ -5,7 +5,7 @@
  */
 package view;
 
-import exceptions.InvalidRecordFieldException;
+import clientmenager.Controller;
 import java.awt.AWTException;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -27,7 +27,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.transform.TransformerException;
-import model.*;
 import org.w3c.dom.Document;
 
 /**
@@ -41,18 +40,11 @@ public class SimpleTaskManager extends javax.swing.JFrame {
      */
     public SimpleTaskManager() {
         initComponents();
-    }
-
-    public SimpleTaskManager(User user, Document document) {
-        initComponents();
-        currentUser = user;
-        jLabel1.setText(jLabel1.getText() + " " + user.getLogin());
-        currentDocument = document;
-        currentTaskLog = user.getTaskLog();
-        Transfer.tl = currentTaskLog;
-        Transfer.model = model;
+        jLabel1.setText(" ");
+        size = Controller.getSize();
+        Controller.model = model;
         clear();
-        currentTaskLog.updateTable();
+        Controller.updateTable();
         updateNotification();
         
     }
@@ -352,7 +344,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
                 i++;
             }
             timer = new Timer();
-            timer.schedule(new NotificationTimerTasks(n), currentTaskLog.getRecord(0).getTime());
+            timer.schedule(new NotificationTimerTasks(n, ), currentTaskLog.getRecord(0).getTime());
         }
         
         
@@ -507,9 +499,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         }
     }
 
-    private static Document currentDocument;
-    private static User currentUser;
-    private static TaskLog currentTaskLog;
+    private static int size=0;
     private static Timer timer = new Timer();
     private static Timer[] timers;
     private static DefaultTableModel model = new javax.swing.table.DefaultTableModel(
