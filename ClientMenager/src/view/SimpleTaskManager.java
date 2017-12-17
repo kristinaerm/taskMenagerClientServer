@@ -6,6 +6,7 @@
 package view;
 
 import clientmenager.Controller;
+import clientmenager.Record;
 import java.awt.AWTException;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -40,13 +41,12 @@ public class SimpleTaskManager extends javax.swing.JFrame {
      */
     public SimpleTaskManager() {
         initComponents();
-        jLabel1.setText(" ");
-        size = Controller.getSize();
         Controller.model = model;
         clear();
+        records = Controller.getRecords();
         Controller.updateTable();
         updateNotification();
-        
+
     }
 // public SimpleTaskManager(User user) throws ParserConfigurationException, SAXException, IOException {
 //        initComponents();
@@ -97,7 +97,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Задачи пользователя:");
+        jLabel1.setText("Задачи пользователя");
 
         jLabel7.setText("Добавить задачу:");
 
@@ -247,21 +247,27 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+
         Record rec = null;
         if ((!"".equals(jTextField1.getText())) && (!"".equals(jTextField2.getText())) && (!"".equals(jTextField3.getText())) && (!"".equals(jTextField4.getText()))) {
 
             try {
                 rec = new Record(jTextField1.getText(), jTextField3.getText(), jTextField2.getText(), jTextField4.getText());
-                currentTaskLog.addRecord(rec);
-                clear();
-                updateNotification();
-            } catch (InvalidRecordFieldException ex) {
+                String result = Controller.addRecord(rec);
+                if (result.equals("OK")){
+                    clear();
+                    updateNotification();
+                }else{
+                    //обработка разных ошибок
+                    JOptionPane.showMessageDialog(null, result);
+                }
+                
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
 
         } else {
-            JOptionPane.showMessageDialog(null,"Для добавления записи все поля необходимо заполнить!");
+            JOptionPane.showMessageDialog(null, "Для добавления записи все поля необходимо заполнить!");
         }
 
 
@@ -270,13 +276,9 @@ public class SimpleTaskManager extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
         try {
-            //if (!"".equals(jTextField6.getText()))
-                if(!"".equals(jTable1.getSelectedRow()))
-            {                
-                //if (Integer.parseInt(jTextField6.getText()) < currentTaskLog.getNumberOfRecords()) {
-                  //  ChangeRecord frame = new ChangeRecord(Integer.parseInt(jTextField6.getText()));
-                     if (jTable1.getSelectedRow() < currentTaskLog.getNumberOfRecords()) {
-                    ChangeRecord frame = new ChangeRecord(jTable1.getSelectedRow());
+            if (!"".equals(jTable1.getSelectedRow())) {
+                if (jTable1.getSelectedRow() < records.length) {
+                    ChangeRecord frame = new ChangeRecord(jTable1.getSelectedRow(), records[jTable1.getSelectedRow()]);
                     frame.setResizable(false);
                     frame.pack();
                     frame.setLocationRelativeTo(null);
@@ -297,28 +299,28 @@ public class SimpleTaskManager extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         try {
-           // if ((!"".equals(jTextField5.getText()))&&(Integer.parseInt(jTextField5.getText())<currentTaskLog.getNumberOfRecords())) {
-             //   currentTaskLog.deleteRecord(Integer.parseInt(jTextField5.getText()));
-               if(!"".equals(jTable1.getSelectedRow())){
-                   currentTaskLog.deleteRecord(jTable1.getSelectedRow());
+            if (!"".equals(jTable1.getSelectedRow())) {
+                Controller.deleteRecord(jTable1.getSelectedRow());
                 clear();
                 updateNotification();
             }
             clear();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Номер записи указан не верно!");
-           // jTextField5.setText("");
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
-            // TODO add your handling code here:
-            Loaders load = new Loaders();
-            load.setLoaders('X');
-            load.addUser(currentDocument, currentUser);
-        } catch (FileNotFoundException | TransformerException ex) {
+            String result = Controller.saveTaskLog();
+            if (result.equals("OK")){
+                JOptionPane.showMessageDialog(null, "Журнал сохранен");
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Не удалось сохранить журнал: " + result);
+            }
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Не удалось сохранить журнал: " + ex.getMessage());
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -328,8 +330,8 @@ public class SimpleTaskManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     //*****************************************************************************************
-    private void updateNotification() {     
-        
+    private void updateNotification() {
+
         try {
             timer.cancel();
             int purge = timer.purge();
@@ -338,52 +340,15 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
         int n = 1;
         int i = 0;
-        if (currentTaskLog.getNumberOfRecords() > 0) {
+        if (records.length > 0) {
 
-            while ((currentTaskLog.getNumberOfRecords() > (i + 1)) && (currentTaskLog.getRecord(i).compareTo(currentTaskLog.getRecord(i + 1)) == 0)) {
+            while ((records.length> (i + 1)) && (records[i].compareTo(records[i + 1]) == 0)) {
                 n++;
                 i++;
             }
             timer = new Timer();
-            timer.schedule(new NotificationTimerTasks(n, ), currentTaskLog.getRecord(0).getTime());
+            timer.schedule(new NotificationTimerTasks(n, records), records[0].getTime());
         }
-        
-        
-//        try {
-//            for (int i = 0; i < timers.length; i++) {
-//
-//                timers[i].cancel();
-//                int purge = timers[i].purge();
-//            }
-//        } catch (Exception e) {
-//        }
-//
-//        int n = 1;
-//        int i = 0;
-//        if (currentTaskLog.getNumberOfRecords() > 0) {
-//
-//            while ((currentTaskLog.getNumberOfRecords() > (i + 1)) && (currentTaskLog.getRecord(i).compareTo(currentTaskLog.getRecord(i + 1)) == 0)) {
-//                n++;
-//                i++;
-//            }
-//            timers = new Timer[n];
-//            for (int j = 0; j < n; j++) {
-//                timers[j] = new Timer();
-//                timers[j].schedule(new NotificationTimerTask(j), currentTaskLog.getRecord(j).getTime());
-//            }
-//
-//        }
-        
-//        try {
-//            timer.cancel();
-//            int purge = timer.purge();
-//        } catch (Exception e) {
-//
-//        }
-//        if (currentTaskLog.getNumberOfRecords() > 0) {
-//            timer = new Timer();
-//            timer.schedule(new NotificationTimerTask(), currentTaskLog.getRecord(0).getTime());
-//        }
     }
 
     private void clear() {
@@ -391,8 +356,6 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
-      //  jTextField5.setText("");
-      //  jTextField6.setText("");
 
     }
 
@@ -500,10 +463,10 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         }
     }
 
-    private static int size=0;
-    private static Timer timer = new Timer();
-    private static Timer[] timers;
-    private static DefaultTableModel model = new javax.swing.table.DefaultTableModel(
+    private Record[] records;
+    private Timer timer = new Timer();
+    private Timer[] timers;
+    private DefaultTableModel model = new javax.swing.table.DefaultTableModel(
             new Object[][]{
                 {null, null, null, null, null}
             },

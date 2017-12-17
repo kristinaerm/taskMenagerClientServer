@@ -18,6 +18,7 @@ public class Controller {
     public static DataInputStream in;
     public static DataOutputStream out;
     public static DefaultTableModel model;
+    public static Record[] records;
     
     public static void updateTable(){
         
@@ -27,12 +28,25 @@ public class Controller {
         return 0;
     }
     
+    public static Record[] getRecords(){
+        records = new Record[0];
+        return records;
+    }
+    
+    public static String addRecord(Record rec){
+        return "OK";
+    }
+    
     public static String changeRecord(int number, String n, String t, String d, String c){
         return "OK";
     }
     
-    public static String deleteRecord(int number){
-        return "OK";
+    public static void  deleteRecord(int number){
+        
+    }
+    
+    public static String saveTaskLog(){
+       return "OK"; 
     }
     
 }

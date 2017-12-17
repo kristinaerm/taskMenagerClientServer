@@ -6,6 +6,7 @@
 package view;
 
 import clientmenager.Controller;
+import clientmenager.Record;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,13 +24,13 @@ public class SimpleNotification extends javax.swing.JFrame {
         initComponents();
     }
 
-    public SimpleNotification(int nu, String n, String t, String d, String c) {
+    public SimpleNotification(int nu, Record rec) {
         initComponents();
         number=nu;
-        jTextField1.setText(t);
-        jTextField2.setText(n);
-        jTextField3.setText(d);
-        jTextField4.setText(c);
+        jTextField1.setText(rec.getTimeString());
+        jTextField2.setText(rec.getName());
+        jTextField3.setText(rec.getDescription());
+        jTextField4.setText(rec.getContacts());
     }
 
     /**

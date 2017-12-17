@@ -143,7 +143,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x417;&#x430;&#x434;&#x430;&#x447;&#x438; &#x43f;&#x43e;&#x43b;&#x44c;&#x437;&#x43e;&#x432;&#x430;&#x442;&#x435;&#x43b;&#x44f;:"/>
+        <Property name="text" type="java.lang.String" value="&#x417;&#x430;&#x434;&#x430;&#x447;&#x438; &#x43f;&#x43e;&#x43b;&#x44c;&#x437;&#x43e;&#x432;&#x430;&#x442;&#x435;&#x43b;&#x44f;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
