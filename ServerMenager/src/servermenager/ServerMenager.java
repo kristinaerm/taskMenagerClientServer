@@ -6,6 +6,7 @@
 package servermenager;
 
 import exceptions.InvalidRecordFieldException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,6 +17,7 @@ import java.util.LinkedList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import model.Loaders;
 import model.Record;
 import model.TaskLog;
@@ -32,13 +34,14 @@ public class ServerMenager {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException, InvalidRecordFieldException, SAXException, ParserConfigurationException {
+    public static void main(String[] args) throws IOException, InvalidRecordFieldException, SAXException, ParserConfigurationException, ClassNotFoundException, FileNotFoundException, TransformerException {
         // TODO code application logic here
         ServerSocket serverSoket = new ServerSocket(10);
 
         Socket client = serverSoket.accept();
         System.out.println("Соединение установлено");
         int countTask = 0;
+        // Record []rec;
         Record rec;
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = documentBuilder.parse("other.xml");
@@ -46,10 +49,7 @@ public class ServerMenager {
         load.setLoaders('X');
         User u = load.readDocument(document);
         TaskLog currentTaskLog = u.getTaskLog();
-        String name;
-        String description;
-        String time;
-        String contacts;
+      
         ObjectInputStream in = new ObjectInputStream(client.getInputStream());
         ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
         while (true) {
@@ -58,19 +58,11 @@ public class ServerMenager {
             switch (cc) {
                 case 'A'://add
                 {
-                   contacts = in.readUTF();
-                    name = in.readUTF();
-                    description = in.readUTF();
-                    time = in.readUTF();
-                    countTask = in.readInt();
-                    System.out.println("Количество задач" + countTask);
-                    for (int i = 0; i < countTask; i++) {
-                        rec = new Record(name, description, time,contacts);
-                       currentTaskLog.addRecord(rec);
-                        currentTaskLog.updateTable();
-                    }
-                    
-                    out.writeObject(currentTaskLog);
+                    rec = (Record) in.readObject();
+
+                    currentTaskLog.addRecord(rec);
+                    currentTaskLog.updateTable();
+                    out.writeObject(rec);
                     System.out.println("Задачи добавлены!");
                     break;
                 }
@@ -78,44 +70,60 @@ public class ServerMenager {
                 {
                     countTask = in.readInt();
                     currentTaskLog.deleteRecord(countTask);
-                     currentTaskLog.updateTable();
-                    out.writeObject(currentTaskLog);
+                    currentTaskLog.updateTable();
+                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+                        out.writeObject(currentTaskLog.getRecord(i));
+                    }
+
                     System.out.println("Задачи удалены!");
                     break;
                 }
                 case 'C': //change
                 {
-                    contacts = in.readUTF();
-                    name = in.readUTF();
-                    description = in.readUTF();
-                    time = in.readUTF();
+
                     countTask = in.readInt();
-                    currentTaskLog.changeRecord(countTask, name, time,description, contacts);
-                     currentTaskLog.updateTable();
-                    out.writeObject(currentTaskLog);
+                    rec = (Record) in.readObject();
+                    currentTaskLog.changeRecord(countTask, rec.getName(), rec.getTimeString(), rec.getDescription(), rec.getContacts());
+                    currentTaskLog.updateTable();
+                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+                        out.writeObject(currentTaskLog.getRecord(i));
+                    }
+                    break;
                 }
                 case 'E'://execute
                 {
                     countTask = in.readInt();
                     currentTaskLog.deleteRecord(countTask);
                     currentTaskLog.updateTable();
-                    out.writeObject(currentTaskLog);
+                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+                        out.writeObject(currentTaskLog.getRecord(i));
+                    }
                     System.out.println("Выполнена!");
                     break;
                 }
                 case 'S'://set aside
                 {
-                     contacts = in.readUTF();
-                    name = in.readUTF();
-                    description = in.readUTF();
-                    time = in.readUTF();
+
                     countTask = in.readInt();
-                    if (countTask < currentTaskLog.getNumberOfRecords())
-                    {
-                    currentTaskLog.changeRecord(countTask, name, time,description, contacts);
-                     currentTaskLog.updateTable();
-                    out.writeObject(currentTaskLog);
+                    rec = (Record) in.readObject();
+                    if (countTask < currentTaskLog.getNumberOfRecords()) {
+                        currentTaskLog.changeRecord(countTask, rec.getName(), rec.getTimeString(), rec.getDescription(), rec.getContacts());
+                        currentTaskLog.updateTable();
+                        for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+                            out.writeObject(currentTaskLog.getRecord(i));
+                        }
                     }
+                    break;
+                }
+                case 'R'://read
+                {
+                    
+                    break;
+                }
+                case 'W'://write
+                {
+                    Document document1 = documentBuilder.parse("Catalog.xml");
+                    load.addUser(document1, u);
                     break;
                 }
             }
