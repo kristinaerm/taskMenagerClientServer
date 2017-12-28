@@ -43,8 +43,12 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         initComponents();
         Controller.model = model;
         clear();
-        records = Controller.getRecords();
-        Controller.updateTable();
+        try {
+            Controller.updateTable();
+        } catch (IOException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        records = Controller.records;
         updateNotification();
 
     }
