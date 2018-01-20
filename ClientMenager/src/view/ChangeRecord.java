@@ -6,6 +6,7 @@
 package view;
 
 import clientmenager.Controller;
+import clientmenager.Record;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,13 +25,13 @@ public class ChangeRecord extends javax.swing.JFrame {
         initComponents();
     }
     
-    public ChangeRecord(int nu, String n, String t, String d, String c) {
+    public ChangeRecord(int nu, Record rec) {
         initComponents();
         num = nu;
-        jTextField1.setText(t);
-        jTextField2.setText(n);
-        jTextField3.setText(d);
-        jTextField4.setText(c);
+        jTextField1.setText(rec.getTimeString());
+        jTextField2.setText(rec.getName());
+        jTextField3.setText(rec.getDescription());
+        jTextField4.setText(rec.getContacts());
     }
 
     /**
@@ -140,6 +141,7 @@ public class ChangeRecord extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             Controller.changeRecord(num, jTextField2.getText(), jTextField1.getText(), jTextField3.getText(), jTextField4.getText());
+            Controller.updateTable();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }

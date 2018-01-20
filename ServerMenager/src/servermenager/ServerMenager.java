@@ -52,17 +52,29 @@ public class ServerMenager {
       
         ObjectInputStream in = new ObjectInputStream(client.getInputStream());
         ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+        char cc;
         while (true) {
 
-            char cc = in.readChar();
+            cc = in.readChar();
             switch (cc) {
+                case 'G'://get records
+                {
+                    out.writeInt(currentTaskLog.getNumberOfRecords());
+                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+                        out.writeObject(currentTaskLog.getRecord(i));
+                    }
+                    System.out.println("Задачи переданы на клиент!");
+                    break;
+                }                
                 case 'A'://add
                 {
                     rec = (Record) in.readObject();
-
                     currentTaskLog.addRecord(rec);
-                    currentTaskLog.updateTable();
-                    out.writeObject(rec);
+                    
+                    out.writeInt(currentTaskLog.getNumberOfRecords());
+                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+                        out.writeObject(currentTaskLog.getRecord(i));
+                    }
                     System.out.println("Задачи добавлены!");
                     break;
                 }
@@ -70,7 +82,7 @@ public class ServerMenager {
                 {
                     countTask = in.readInt();
                     currentTaskLog.deleteRecord(countTask);
-                    currentTaskLog.updateTable();
+                    out.writeInt(currentTaskLog.getNumberOfRecords());
                     for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
                         out.writeObject(currentTaskLog.getRecord(i));
                     }
@@ -84,7 +96,7 @@ public class ServerMenager {
                     countTask = in.readInt();
                     rec = (Record) in.readObject();
                     currentTaskLog.changeRecord(countTask, rec.getName(), rec.getTimeString(), rec.getDescription(), rec.getContacts());
-                    currentTaskLog.updateTable();
+                    out.writeInt(currentTaskLog.getNumberOfRecords());
                     for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
                         out.writeObject(currentTaskLog.getRecord(i));
                     }
@@ -94,7 +106,7 @@ public class ServerMenager {
                 {
                     countTask = in.readInt();
                     currentTaskLog.deleteRecord(countTask);
-                    currentTaskLog.updateTable();
+                    out.writeInt(currentTaskLog.getNumberOfRecords());
                     for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
                         out.writeObject(currentTaskLog.getRecord(i));
                     }
@@ -108,7 +120,7 @@ public class ServerMenager {
                     rec = (Record) in.readObject();
                     if (countTask < currentTaskLog.getNumberOfRecords()) {
                         currentTaskLog.changeRecord(countTask, rec.getName(), rec.getTimeString(), rec.getDescription(), rec.getContacts());
-                        currentTaskLog.updateTable();
+                        out.writeInt(currentTaskLog.getNumberOfRecords());
                         for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
                             out.writeObject(currentTaskLog.getRecord(i));
                         }
@@ -127,6 +139,7 @@ public class ServerMenager {
                     break;
                 }
             }
+            out.flush();
 
         }
     }

@@ -6,6 +6,10 @@
 package view;
 
 import clientmenager.Controller;
+import clientmenager.Record;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,13 +27,13 @@ public class SimpleNotification extends javax.swing.JFrame {
         initComponents();
     }
 
-    public SimpleNotification(int nu, String n, String t, String d, String c) {
+    public SimpleNotification(int nu, Record rec) {
         initComponents();
         number=nu;
-        jTextField1.setText(t);
-        jTextField2.setText(n);
-        jTextField3.setText(d);
-        jTextField4.setText(c);
+        jTextField1.setText(rec.getTimeString());
+        jTextField2.setText(rec.getName());
+        jTextField3.setText(rec.getDescription());
+        jTextField4.setText(rec.getContacts());
     }
 
     /**
@@ -149,7 +153,10 @@ public class SimpleNotification extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Controller.deleteRecord(number);
-        Controller.updateTable();
+        try {
+            Controller.updateTable();
+        } catch (IOException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());}
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
