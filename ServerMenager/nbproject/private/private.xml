@@ -2,8 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
             <file>file:/C:/Users/USER/Documents/GitHub/taskMenagerClientServer/ServerMenager/src/servermenager/ServerMenager.java</file>
         </group>
+>>>>>>> 76e5d2798530de861972d4c9c4dfd43e560a8531
     </open-files>
 </project-private>
