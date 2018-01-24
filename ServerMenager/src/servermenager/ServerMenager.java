@@ -49,7 +49,7 @@ public class ServerMenager {
         load.setLoaders('X');
         User u = load.readDocument(document);
         TaskLog currentTaskLog = u.getTaskLog();
-      
+
         ObjectInputStream in = new ObjectInputStream(client.getInputStream());
         ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
         char cc;
@@ -57,7 +57,8 @@ public class ServerMenager {
 
             cc = in.readChar();
             switch (cc) {
-                case 'G'://get records
+                //GET RECORDS
+                case 'G':
                 {
                     out.writeInt(currentTaskLog.getNumberOfRecords());
                     for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
@@ -65,12 +66,13 @@ public class ServerMenager {
                     }
                     System.out.println("Задачи переданы на клиент!");
                     break;
-                }                
-                case 'A'://add
+                }
+                //ADD
+                case 'A':
                 {
                     rec = (Record) in.readObject();
                     currentTaskLog.addRecord(rec);
-                    
+
                     out.writeInt(currentTaskLog.getNumberOfRecords());
                     for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
                         out.writeObject(currentTaskLog.getRecord(i));
@@ -78,7 +80,8 @@ public class ServerMenager {
                     System.out.println("Задачи добавлены!");
                     break;
                 }
-                case 'D'://delete
+                //Delete
+                case 'D':
                 {
                     countTask = in.readInt();
                     currentTaskLog.deleteRecord(countTask);
@@ -90,7 +93,8 @@ public class ServerMenager {
                     System.out.println("Задачи удалены!");
                     break;
                 }
-                case 'C': //change
+                //Change
+                case 'C': 
                 {
 
                     countTask = in.readInt();
@@ -102,7 +106,8 @@ public class ServerMenager {
                     }
                     break;
                 }
-                case 'E'://execute
+                //Execute
+                case 'E':
                 {
                     countTask = in.readInt();
                     currentTaskLog.deleteRecord(countTask);
@@ -113,7 +118,8 @@ public class ServerMenager {
                     System.out.println("Выполнена!");
                     break;
                 }
-                case 'S'://set aside
+                //Set aside
+                case 'S':
                 {
 
                     countTask = in.readInt();
@@ -129,7 +135,7 @@ public class ServerMenager {
                 }
                 case 'R'://read
                 {
-                    
+
                     break;
                 }
                 case 'W'://write

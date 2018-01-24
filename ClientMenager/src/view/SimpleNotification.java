@@ -8,8 +8,6 @@ package view;
 import clientmenager.Controller;
 import clientmenager.Record;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +20,7 @@ public class SimpleNotification extends javax.swing.JFrame {
      * Creates new form NotificationInterface
      */
     private int number;
+    private Record record;
     
     public SimpleNotification() {
         initComponents();
@@ -30,6 +29,7 @@ public class SimpleNotification extends javax.swing.JFrame {
     public SimpleNotification(int nu, Record rec) {
         initComponents();
         number=nu;
+        record = rec;
         jTextField1.setText(rec.getTimeString());
         jTextField2.setText(rec.getName());
         jTextField3.setText(rec.getDescription());
@@ -157,7 +157,9 @@ public class SimpleNotification extends javax.swing.JFrame {
             Controller.updateTable();
         } catch (IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());}
-        this.dispose();
+        finally{
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -172,8 +174,9 @@ public class SimpleNotification extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-
-        //закрыть
+        finally{
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
 //    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         

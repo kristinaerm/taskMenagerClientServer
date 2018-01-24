@@ -50,6 +50,10 @@ public class TaskLog {
     public LinkedList<Record> getRecords() {
         return records;
     }
+    
+    public Object[] getRecordsArray(){
+        return records.toArray();
+    }
 
     public int getNumberOfRecords() {
         return records.size();
@@ -85,6 +89,36 @@ public class TaskLog {
         updateTable();
     }
 
+    public void changeRecord(String id, String na, String ti, String des, String con) throws InvalidRecordFieldException {
+        try {
+        records.get(getNumberById(id));
+        if ((!na.equals(""))) {
+            records.get(getNumberById(id)).setName(na);
+        }
+        if ((!ti.equals(""))) {
+            records.get(getNumberById(id)).setTime(ti);
+        }
+        if ((!des.equals(""))) {
+            records.get(getNumberById(id)).setDescription(des);
+        }
+        if ((!con.equals(""))) {
+            records.get(getNumberById(id)).setContacts(con);
+        }}
+        catch (IndexOutOfBoundsException ex){}
+        sort();
+        updateTable();
+    }
+
+    
+    public int getNumberById(String id) throws IndexOutOfBoundsException{
+        int i=0;
+        while ((i< records.size())&&(!records.get(i).getId().equals(id))){
+            i++;
+        }
+        if (i==records.size()) throw new IndexOutOfBoundsException();
+        else return i;
+    }
+    
     public Record getRecord(int n) {
 
         return records.get(n);
@@ -98,7 +132,6 @@ public class TaskLog {
 
     public void deleteRecord(int n) {
         records.remove(n);
-
         updateTable();
     }
 
