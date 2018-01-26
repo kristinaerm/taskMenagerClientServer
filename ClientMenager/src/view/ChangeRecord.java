@@ -7,6 +7,7 @@ package view;
 
 import clientmenager.Controller;
 import clientmenager.Record;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
@@ -142,7 +143,7 @@ public class ChangeRecord extends javax.swing.JFrame {
             // TODO add your handling code here:
             Controller.changeRecord(num, jTextField2.getText(), jTextField1.getText(), jTextField3.getText(), jTextField4.getText());
             Controller.updateTable();
-        } catch (Exception ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         this.dispose();

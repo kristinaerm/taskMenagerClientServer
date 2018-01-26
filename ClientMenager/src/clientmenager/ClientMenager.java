@@ -61,7 +61,7 @@ public class ClientMenager {
                 public void windowClosing(WindowEvent event) {
 
                     // [ТУТ  ДЕЙСТВИЯ ПО ЗАКРЫТИЮ]
-                    //****************************
+                    //закрыть потоки но как??????
                     System.exit(0);
                 }
 
