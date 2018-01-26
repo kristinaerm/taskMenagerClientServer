@@ -36,7 +36,7 @@ public class ServerMenager {
      */
     public static void main(String[] args) throws IOException, InvalidRecordFieldException, SAXException, ParserConfigurationException, ClassNotFoundException, FileNotFoundException, TransformerException {
         // TODO code application logic here
-        ServerSocket serverSoket = new ServerSocket(10);
+        ServerSocket serverSoket = new ServerSocket(1024);
 
         Socket client = serverSoket.accept();
         System.out.println("Соединение установлено");
@@ -60,9 +60,9 @@ public class ServerMenager {
                 case 'G'://get records
                 {
                     out.writeInt(currentTaskLog.getNumberOfRecords());
-                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-                        out.writeObject(currentTaskLog.getRecord(i));
-                    }
+//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+//                        out.writeObject(currentTaskLog.getRecord(i));
+//                    }
                     System.out.println("Задачи переданы на клиент!");
                     break;
                 }                
@@ -72,9 +72,9 @@ public class ServerMenager {
                     currentTaskLog.addRecord(rec);
                     
                     out.writeInt(currentTaskLog.getNumberOfRecords());
-                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-                        out.writeObject(currentTaskLog.getRecord(i));
-                    }
+//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+//                        out.writeObject(currentTaskLog.getRecord(i));
+//                    }
                     System.out.println("Задачи добавлены!");
                     break;
                 }
@@ -83,9 +83,9 @@ public class ServerMenager {
                     countTask = in.readInt();
                     currentTaskLog.deleteRecord(countTask);
                     out.writeInt(currentTaskLog.getNumberOfRecords());
-                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-                        out.writeObject(currentTaskLog.getRecord(i));
-                    }
+//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+//                        out.writeObject(currentTaskLog.getRecord(i));
+//                    }
 
                     System.out.println("Задачи удалены!");
                     break;
@@ -97,9 +97,9 @@ public class ServerMenager {
                     rec = (Record) in.readObject();
                     currentTaskLog.changeRecord(countTask, rec.getName(), rec.getTimeString(), rec.getDescription(), rec.getContacts());
                     out.writeInt(currentTaskLog.getNumberOfRecords());
-                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-                        out.writeObject(currentTaskLog.getRecord(i));
-                    }
+//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+//                        out.writeObject(currentTaskLog.getRecord(i));
+//                    }
                     break;
                 }
                 case 'E'://execute
@@ -107,9 +107,9 @@ public class ServerMenager {
                     countTask = in.readInt();
                     currentTaskLog.deleteRecord(countTask);
                     out.writeInt(currentTaskLog.getNumberOfRecords());
-                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-                        out.writeObject(currentTaskLog.getRecord(i));
-                    }
+//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+//                        out.writeObject(currentTaskLog.getRecord(i));
+//                    }
                     System.out.println("Выполнена!");
                     break;
                 }
@@ -121,9 +121,9 @@ public class ServerMenager {
                     if (countTask < currentTaskLog.getNumberOfRecords()) {
                         currentTaskLog.changeRecord(countTask, rec.getName(), rec.getTimeString(), rec.getDescription(), rec.getContacts());
                         out.writeInt(currentTaskLog.getNumberOfRecords());
-                        for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-                            out.writeObject(currentTaskLog.getRecord(i));
-                        }
+//                        for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+//                            out.writeObject(currentTaskLog.getRecord(i));
+//                        }
                     }
                     break;
                 }
@@ -138,9 +138,16 @@ public class ServerMenager {
                     load.addUser(document1, u);
                     break;
                 }
+                case 'r'://ПОЛУЧЕНИЕ ЗАПИСЕЙ ВСЕХ
+                {
+                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+                            out.writeObject(currentTaskLog.getRecord(i));
+                        }
+                    break;
+                }
             }
             out.flush();
-
+     
         }
     }
 
