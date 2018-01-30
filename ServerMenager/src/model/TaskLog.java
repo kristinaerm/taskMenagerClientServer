@@ -71,7 +71,7 @@ public class TaskLog {
         return data;
     }
 
-    public void changeRecord(int n, String na, String ti, String des, String con) throws InvalidRecordFieldException {
+    public void changeRecord(int n, String na, String ti, String des, String con) throws InvalidRecordFieldException  {
         records.get(n);
         if ((!na.equals(""))) {
             records.get(n).setName(na);

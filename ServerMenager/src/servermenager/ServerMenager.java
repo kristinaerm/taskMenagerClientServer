@@ -61,9 +61,9 @@ public class ServerMenager {
                 case 'G':
                 {
                     out.writeInt(currentTaskLog.getNumberOfRecords());
-//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-//                        out.writeObject(currentTaskLog.getRecord(i));
-//                    }
+                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+                        out.writeObject(currentTaskLog.getRecord(i));
+                    }
                     System.out.println("Задачи переданы на клиент!");
                     break;
                 }
@@ -73,7 +73,7 @@ public class ServerMenager {
                     rec = (Record) in.readObject();
                     currentTaskLog.addRecord(rec);
 
-                    out.writeInt(currentTaskLog.getNumberOfRecords());
+//                    out.writeInt(currentTaskLog.getNumberOfRecords());
 //                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
 //                        out.writeObject(currentTaskLog.getRecord(i));
 //                    }
@@ -85,7 +85,7 @@ public class ServerMenager {
                 {
                     countTask = in.readInt();
                     currentTaskLog.deleteRecord(countTask);
-                    out.writeInt(currentTaskLog.getNumberOfRecords());
+//                    out.writeInt(currentTaskLog.getNumberOfRecords());
 //                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
 //                        out.writeObject(currentTaskLog.getRecord(i));
 //                    }
@@ -98,59 +98,68 @@ public class ServerMenager {
                 {
 
                     countTask = in.readInt();
-                    rec = (Record) in.readObject();
-                    currentTaskLog.changeRecord(countTask, rec.getName(), rec.getTimeString(), rec.getDescription(), rec.getContacts());
-                    out.writeInt(currentTaskLog.getNumberOfRecords());
-//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-//                        out.writeObject(currentTaskLog.getRecord(i));
-//                    }
-                    break;
-                }
-                //Execute
-                case 'E':
-                {
-                    countTask = in.readInt();
-                    currentTaskLog.deleteRecord(countTask);
-                    out.writeInt(currentTaskLog.getNumberOfRecords());
-//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-//                        out.writeObject(currentTaskLog.getRecord(i));
-//                    }
-                    System.out.println("Выполнена!");
-                    break;
-                }
-                //Set aside
-                case 'S':
-                {
-
-                    countTask = in.readInt();
-                    rec = (Record) in.readObject();
-                    if (countTask < currentTaskLog.getNumberOfRecords()) {
-                        currentTaskLog.changeRecord(countTask, rec.getName(), rec.getTimeString(), rec.getDescription(), rec.getContacts());
-                        out.writeInt(currentTaskLog.getNumberOfRecords());
-//                        for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-//                            out.writeObject(currentTaskLog.getRecord(i));
-//                        }
+                    String name = in.readUTF();
+                    String time = in.readUTF();
+                    String des = in.readUTF();
+                    String cont = in.readUTF();
+                    try{
+                        currentTaskLog.changeRecord(countTask, name, time, des, cont);
+                        out.writeUTF("OK");
                     }
+                    catch (InvalidRecordFieldException ex){
+                        out.writeUTF(ex.getMessage());
+                    }
+//                    out.writeInt(currentTaskLog.getNumberOfRecords());
+//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+//                        out.writeObject(currentTaskLog.getRecord(i));
+//                    }
                     break;
                 }
-                case 'R'://read
-                {
-
-                    break;
-                }
+//                //Execute
+//                case 'E':
+//                {
+//                    countTask = in.readInt();
+//                    currentTaskLog.deleteRecord(countTask);
+//                    out.writeInt(currentTaskLog.getNumberOfRecords());
+////                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+////                        out.writeObject(currentTaskLog.getRecord(i));
+////                    }
+//                    System.out.println("Выполнена!");
+//                    break;
+//                }
+//                //Set aside
+//                case 'S':
+//                {
+//
+//                    countTask = in.readInt();
+//                    rec = (Record) in.readObject();
+//                    if (countTask < currentTaskLog.getNumberOfRecords()) {
+//                        currentTaskLog.changeRecord(countTask, rec.getName(), rec.getTimeString(), rec.getDescription(), rec.getContacts());
+//                        out.writeInt(currentTaskLog.getNumberOfRecords());
+////                        for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+////                            out.writeObject(currentTaskLog.getRecord(i));
+////                        }
+//                    }
+//                    break;
+//                }
+//                case 'R'://read
+//                {
+//
+//                    break;
+//                }
                 case 'W'://write
                 {
                     Document document1 = documentBuilder.parse("Catalog.xml");
                     load.addUser(document1, u);
                     break;
                 }
-                case 'r'://ПОЛУЧЕНИЕ ЗАПИСЕЙ ВСЕХ
-                {
-                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-                            out.writeObject(currentTaskLog.getRecord(i));
-                        }
-                    break;
-                }
+//                case 'r'://ПОЛУЧЕНИЕ ЗАПИСЕЙ ВСЕХ
+//                {
+//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
+//                            out.writeObject(currentTaskLog.getRecord(i));
+//                        }
+//                    break;
+//                }
             }
             out.flush();
      

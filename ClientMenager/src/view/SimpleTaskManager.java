@@ -254,15 +254,9 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
             try {
                 rec = new Record(jTextField1.getText(), jTextField3.getText(), jTextField2.getText(), jTextField4.getText());
-                String result = Controller.addRecord(rec);
-                if (result.equals("OK")){
+                Controller.addRecord(rec);                
                     clear();
                     updateNotification();
-                }else{
-                    //обработка разных ошибок
-                    JOptionPane.showMessageDialog(null, result);
-                }
-                
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
@@ -314,13 +308,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
-            String result = Controller.saveTaskLog();
-            if (result.equals("OK")){
-                JOptionPane.showMessageDialog(null, "Журнал сохранен");
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Не удалось сохранить журнал: " + result);
-            }
+            Controller.saveTaskLog();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Не удалось сохранить журнал: " + ex.getMessage());
         }
