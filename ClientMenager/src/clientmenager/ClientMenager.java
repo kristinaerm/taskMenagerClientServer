@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import view.SimpleTaskManager;
@@ -59,7 +57,11 @@ public class ClientMenager {
             frame.addWindowListener(new WindowListener() {
                 @Override
                 public void windowClosing(WindowEvent event) {
-
+                    try {
+                        Controller.saveTaskLog();
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
                     try {
                         in.close();
                     } catch (IOException ex) {
@@ -67,6 +69,11 @@ public class ClientMenager {
                     }
                     try {
                         out.close();
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                    try {
+                        socket.close();
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
@@ -106,27 +113,6 @@ public class ClientMenager {
             
         } catch (IOException e) {
             System.err.println(e);
-        }
-
-        try {
-            out.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientMenager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            out.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientMenager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            in.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientMenager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            socket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientMenager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
