@@ -86,7 +86,7 @@ public class TaskLog {
             records.get(n).setContacts(con);
         }
         sort();
-        updateTable();
+        //updateTable();
     }
 
     public void changeRecord(String id, String na, String ti, String des, String con) throws InvalidRecordFieldException {
@@ -106,7 +106,7 @@ public class TaskLog {
         }}
         catch (IndexOutOfBoundsException ex){}
         sort();
-        updateTable();
+        //updateTable();
     }
 
     
@@ -127,12 +127,12 @@ public class TaskLog {
     public void addRecord(Record rec) {
         records.add(rec);
         sort();
-        updateTable();
+        //updateTable();
     }
 
     public void deleteRecord(int n) {
         records.remove(n);
-        updateTable();
+        //updateTable();
     }
 
     public void sort() {
