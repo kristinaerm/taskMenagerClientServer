@@ -39,21 +39,39 @@ public class Controller {
         }
     }
     
-    public static String addRecord(Record rec){
-        
-        return "OK";
+    public static void addRecord(Record rec) throws IOException, ClassNotFoundException{
+        out.writeChar('A');
+        out.flush();
+        out.writeObject(rec);
+        out.flush();
+        updateTable();
+
     }
     
-    public static String changeRecord(int number, String n, String t, String d, String c){
-        return "OK";
+    public static String changeRecord(int number, String n, String t, String d, String c) throws IOException{
+        out.writeChar('C');
+        out.flush();
+        out.writeInt(number);
+        out.writeUTF(n);
+        out.writeUTF(t);
+        out.writeUTF(d);
+        out.writeUTF(c);
+        out.flush();
+        String answer = in.readUTF();
+        if (answer.equals("OK")) return "OK";
+        else return answer;
     }
     
-    public static void  deleteRecord(int number){
-        
+    public static void  deleteRecord(int number) throws IOException{
+        out.writeChar('D');
+        out.flush();
+        out.writeInt(number);
+        out.flush();
     }
     
-    public static String saveTaskLog(){
-       return "OK"; 
+    public static void saveTaskLog() throws IOException{
+       out.writeChar('W');
+       out.flush();
     }
     
 }

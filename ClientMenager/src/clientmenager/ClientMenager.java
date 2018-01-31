@@ -7,17 +7,12 @@ package clientmenager;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.xml.transform.TransformerException;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import javax.swing.JOptionPane;
 import view.SimpleTaskManager;
 
 /**
@@ -29,13 +24,16 @@ public class ClientMenager {
     /**
      * @param args the command line arguments
      */
+
+    static int serverPort = 1024;
+    static String address = "localhost";
+    static Socket socket = null;
+    static ObjectOutputStream out = null;
+    static ObjectInputStream in = null;
+    
     public static void main(String[] args) {
         // TODO code application logic here
-        int serverPort = 1024;
-        String address = "localhost";
-        Socket socket = null;
-        ObjectOutputStream out = null;
-        ObjectInputStream in = null;
+        
 
         try {
 
@@ -59,9 +57,26 @@ public class ClientMenager {
             frame.addWindowListener(new WindowListener() {
                 @Override
                 public void windowClosing(WindowEvent event) {
-
-                    // [ТУТ  ДЕЙСТВИЯ ПО ЗАКРЫТИЮ]
-                    //закрыть потоки но как??????
+                    try {
+                        Controller.saveTaskLog();
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                    try {
+                        in.close();
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                    try {
+                        out.close();
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                    try {
+                        socket.close();
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
                     System.exit(0);
                 }
 
@@ -98,27 +113,6 @@ public class ClientMenager {
             
         } catch (IOException e) {
             System.err.println(e);
-        }
-
-        try {
-            out.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientMenager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            out.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientMenager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            in.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientMenager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            socket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientMenager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
