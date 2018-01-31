@@ -17,8 +17,13 @@ import java.util.UUID;
  * @author USER
  */
 
+<<<<<<< HEAD
 
 public class Record implements Comparable,Serializable {
+=======
+public class Record implements Comparable,Serializable {
+
+>>>>>>> 0e4d3c411472f0c932d90ddcb1c786c01c51fbd4
 
     private String id;
     private String name;
@@ -39,7 +44,7 @@ public class Record implements Comparable,Serializable {
         if (DataCheck.nameCheck(n)) {
             if (DataCheck.descriptionCheck(d)) {
                 if (DataCheck.contactsCheck(c)) {
-                    if (DataCheck.timeCheck(t)) {
+                    
                         name = n;
                         description = d;
                         contacts = c;
@@ -49,9 +54,7 @@ public class Record implements Comparable,Serializable {
                             time = new Date();
                         }
                         id = UUID.randomUUID().toString();
-                    } else {
-                        throw new InvalidRecordFieldException("Неправильный формат даты или прошедшее время. дд-мм-гггг чч:мм");
-                    }
+                    
                 } else {
                     throw new InvalidRecordFieldException("Длина поля контактов не должна превышать 15 символов.");
                 }
