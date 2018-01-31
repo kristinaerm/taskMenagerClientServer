@@ -6,6 +6,7 @@
 package model;
 
 import exceptions.InvalidRecordFieldException;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,7 +16,7 @@ import java.util.UUID;
  *
  * @author USER
  */
-public class Record implements Comparable {
+public class Record implements Comparable,Serializable {
 
     private String id;
     private String name;
