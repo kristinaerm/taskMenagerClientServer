@@ -96,8 +96,8 @@ public class ServerMenager {
                 //Delete
                 case 'D':
                 {
-                    countTask = in.readInt();
-                    currentTaskLog.deleteRecord(countTask);
+                    id = in.readUTF();
+                    currentTaskLog.deleteRecord(id);
 //                    out.writeInt(currentTaskLog.getNumberOfRecords());
 //                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
 //                        out.writeObject(currentTaskLog.getRecord(i));
@@ -110,16 +110,16 @@ public class ServerMenager {
                 case 'C': 
                 {
 
-                    countTask = in.readInt();
+                    id = in.readUTF();
                     String name = in.readUTF();
                     String time = in.readUTF();
                     String des = in.readUTF();
                     String cont = in.readUTF();
                     try{
-                        currentTaskLog.changeRecord(countTask, name, time, des, cont);
+                        currentTaskLog.changeRecord(id, name, time, des, cont);
                         out.writeUTF("OK");
                     }
-                    catch (InvalidRecordFieldException ex){
+                    catch (InvalidRecordFieldException | IndexOutOfBoundsException ex){
                         out.writeUTF(ex.getMessage());
                     }
 //                    out.writeInt(currentTaskLog.getNumberOfRecords());

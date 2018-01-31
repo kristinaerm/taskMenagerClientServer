@@ -155,7 +155,7 @@ public class SimpleNotification extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            Controller.deleteRecord(number);
+            Controller.deleteRecord(record.getId());
         } catch (IOException ex) {
             Logger.getLogger(SimpleNotification.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -172,7 +172,7 @@ public class SimpleNotification extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            String result = Controller.changeRecord(number, jTextField2.getText(), jTextField5.getText(), jTextField3.getText(), jTextField4.getText());
+            String result = Controller.changeRecord(record.getId(), jTextField2.getText(), jTextField5.getText(), jTextField3.getText(), jTextField4.getText());
             if (result.equals("OK")){
                 Controller.updateTable();
                 this.dispose();

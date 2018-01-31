@@ -89,8 +89,8 @@ public class TaskLog {
         //updateTable();
     }
 
-    public void changeRecord(String id, String na, String ti, String des, String con) throws InvalidRecordFieldException {
-        try {
+    public void changeRecord(String id, String na, String ti, String des, String con) throws InvalidRecordFieldException, IndexOutOfBoundsException {
+        
         records.get(getNumberById(id));
         if ((!na.equals(""))) {
             records.get(getNumberById(id)).setName(na);
@@ -103,11 +103,11 @@ public class TaskLog {
         }
         if ((!con.equals(""))) {
             records.get(getNumberById(id)).setContacts(con);
-        }}
-        catch (IndexOutOfBoundsException ex){}
+        }
         sort();
         //updateTable();
     }
+    
 
     
     public int getNumberById(String id) throws IndexOutOfBoundsException{
@@ -131,6 +131,15 @@ public class TaskLog {
     }
 
     public void deleteRecord(int n) {
+        records.remove(n);
+        //updateTable();
+    }
+    
+    public void deleteRecord(String id) {
+        int n = 0;
+        int i = 0;
+        while ((i<getNumberOfRecords())&&(!records.get(i).getId().equals(id)))i++;
+        if (i<getNumberOfRecords())
         records.remove(n);
         //updateTable();
     }

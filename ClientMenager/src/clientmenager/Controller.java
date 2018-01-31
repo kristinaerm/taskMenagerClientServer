@@ -31,11 +31,7 @@ public class Controller {
         out.writeChar('G');
         out.flush();
         int size = in.readInt();
-<<<<<<< HEAD
-       records=new Record[size];
-=======
         records = new Record[size];
->>>>>>> 4292e3ba92a6f21e50b5f64266171623ea88d399
         for (int i=0; i<size; i++){
             try {
                 //            records[i]=(Record)in.readObject();
@@ -75,10 +71,10 @@ public class Controller {
 
     }
     
-    public static String changeRecord(int number, String n, String t, String d, String c) throws IOException, ClassNotFoundException{
+    public static String changeRecord(String id, String n, String t, String d, String c) throws IOException, ClassNotFoundException{
         out.writeChar('C');
         out.flush();
-        out.writeInt(number);
+        out.writeUTF(id);
         out.writeUTF(n);
         out.writeUTF(t);
         out.writeUTF(d);
@@ -91,10 +87,10 @@ public class Controller {
 
     }
     
-    public static void  deleteRecord(int number) throws IOException, ClassNotFoundException{
+    public static void  deleteRecord(String id) throws IOException, ClassNotFoundException{
         out.writeChar('D');
         out.flush();
-        out.writeInt(number);
+        out.writeUTF(id);
         out.flush();        
         updateTable();
     }

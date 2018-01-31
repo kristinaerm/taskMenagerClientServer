@@ -295,7 +295,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             if (!"".equals(jTable1.getSelectedRow())) {
-                Controller.deleteRecord(jTable1.getSelectedRow());
+                Controller.deleteRecord(records[jTable1.getSelectedRow()].getId());
                 clear();
                 //updateNotification();
             }

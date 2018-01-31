@@ -21,6 +21,7 @@ public class ChangeRecord extends javax.swing.JFrame {
      */
     
     private int num=0;
+    private Record r;
     
     public ChangeRecord() {
         initComponents();
@@ -29,6 +30,7 @@ public class ChangeRecord extends javax.swing.JFrame {
     public ChangeRecord(int nu, Record rec) {
         initComponents();
         num = nu;
+        r = rec;
         jTextField1.setText(rec.getTimeString());
         jTextField2.setText(rec.getName());
         jTextField3.setText(rec.getDescription());
@@ -141,7 +143,7 @@ public class ChangeRecord extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            Controller.changeRecord(num, jTextField2.getText(), jTextField1.getText(), jTextField3.getText(), jTextField4.getText());
+            Controller.changeRecord(r.getId(), jTextField2.getText(), jTextField1.getText(), jTextField3.getText(), jTextField4.getText());
             Controller.updateTable();
         } catch (IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
