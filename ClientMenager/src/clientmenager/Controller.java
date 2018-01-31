@@ -5,9 +5,12 @@
  */
 package clientmenager;
 
+import exceptions.InvalidRecordFieldException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,12 +25,28 @@ public class Controller {
     public static Record[] records;
     
     public static void updateTable() throws IOException, ClassNotFoundException{
+        String na, de,ti,co,id;
         out.writeChar('G');
         out.flush();
         int size = in.readInt();
+<<<<<<< HEAD
        records=new Record[size];
+=======
+        records = new Record[size];
+>>>>>>> 4292e3ba92a6f21e50b5f64266171623ea88d399
         for (int i=0; i<size; i++){
-            records[i]=(Record)in.readObject();
+            try {
+                //            records[i]=(Record)in.readObject();
+                na = in.readUTF();
+                de = in.readUTF();
+                ti = in.readUTF();
+                co = in.readUTF();
+                records[i] = new Record(na,de,ti,co);
+                id = in.readUTF();
+                records[i].setId(id);
+            } catch (InvalidRecordFieldException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         while (model.getRowCount() != 0) {
@@ -40,16 +59,19 @@ public class Controller {
         }
     }
     
-    public static void addRecord(Record rec) throws IOException, ClassNotFoundException{
+    public static void addRecord(Record rec) throws IOException, ClassNotFoundException {
         out.writeChar('A');
         out.flush();
-        out.writeObject(rec);
+        out.writeUTF(rec.getName());
+        out.writeUTF(rec.getDescription());
+        out.writeUTF(rec.getTimeString());
+        out.writeUTF(rec.getContacts());
         out.flush();
         updateTable();
 
     }
     
-    public static String changeRecord(int number, String n, String t, String d, String c) throws IOException{
+    public static String changeRecord(int number, String n, String t, String d, String c) throws IOException, ClassNotFoundException{
         out.writeChar('C');
         out.flush();
         out.writeInt(number);
@@ -58,9 +80,11 @@ public class Controller {
         out.writeUTF(d);
         out.writeUTF(c);
         out.flush();
+        updateTable();
         String answer = in.readUTF();
         if (answer.equals("OK")) return "OK";
         else return answer;
+
     }
     
     public static void  deleteRecord(int number) throws IOException{
