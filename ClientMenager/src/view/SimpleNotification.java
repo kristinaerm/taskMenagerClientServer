@@ -158,6 +158,8 @@ public class SimpleNotification extends javax.swing.JFrame {
             Controller.deleteRecord(number);
         } catch (IOException ex) {
             Logger.getLogger(SimpleNotification.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SimpleNotification.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             Controller.updateTable();

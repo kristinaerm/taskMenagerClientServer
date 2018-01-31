@@ -12,6 +12,8 @@ import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import view.SimpleTaskManager;
+import static view.SimpleTaskManager.records;
 
 /**
  *
@@ -55,6 +57,8 @@ public class Controller {
         for (int i = 0; i < records.length; i++) {
             model.addRow(new Object[]{i, records[i].getName(), records[i].getTimeString(), records[i].getDescription(), records[i].getContacts()});
         }
+        SimpleTaskManager.records = records;
+        SimpleTaskManager.updateNotification();
     }
     
     public static void addRecord(Record rec) throws IOException, ClassNotFoundException {
@@ -77,19 +81,20 @@ public class Controller {
         out.writeUTF(t);
         out.writeUTF(d);
         out.writeUTF(c);
-        out.flush();
-        updateTable();
+        out.flush();        
         String answer = in.readUTF();
+        updateTable();
         if (answer.equals("OK")) return "OK";
         else return answer;
 
     }
     
-    public static void  deleteRecord(int number) throws IOException{
+    public static void  deleteRecord(int number) throws IOException, ClassNotFoundException{
         out.writeChar('D');
         out.flush();
         out.writeInt(number);
-        out.flush();
+        out.flush();        
+        updateTable();
     }
     
     public static void saveTaskLog() throws IOException{
