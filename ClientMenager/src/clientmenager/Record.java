@@ -17,8 +17,13 @@ import java.util.UUID;
  * @author USER
  */
 
+<<<<<<< HEAD
+
+public class Record implements Comparable,Serializable {
+=======
 public class Record implements Comparable,Serializable {
 
+>>>>>>> 0e4d3c411472f0c932d90ddcb1c786c01c51fbd4
 
     private String id;
     private String name;

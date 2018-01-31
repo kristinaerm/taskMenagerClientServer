@@ -79,7 +79,7 @@ public class ServerMenager {
                 case 'A':
                 {
 //                    rec = (Record) in.readObject();
-                    na = in.readUTF();
+                na = in.readUTF();
                 de = in.readUTF();
                 ti = in.readUTF();
                 co = in.readUTF();
@@ -129,51 +129,14 @@ public class ServerMenager {
                        out.flush();
                     break;
                 }
-//                //Execute
-//                case 'E':
-//                {
-//                    countTask = in.readInt();
-//                    currentTaskLog.deleteRecord(countTask);
-//                    out.writeInt(currentTaskLog.getNumberOfRecords());
-////                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-////                        out.writeObject(currentTaskLog.getRecord(i));
-////                    }
-//                    System.out.println("Выполнена!");
-//                    break;
-//                }
-//                //Set aside
-//                case 'S':
-//                {
-//
-//                    countTask = in.readInt();
-//                    rec = (Record) in.readObject();
-//                    if (countTask < currentTaskLog.getNumberOfRecords()) {
-//                        currentTaskLog.changeRecord(countTask, rec.getName(), rec.getTimeString(), rec.getDescription(), rec.getContacts());
-//                        out.writeInt(currentTaskLog.getNumberOfRecords());
-////                        for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-////                            out.writeObject(currentTaskLog.getRecord(i));
-////                        }
-//                    }
-//                    break;
-//                }
-//                case 'R'://read
-//                {
-//
-//                    break;
-//                }
+
                 case 'W'://write
                 {
                     Document document1 = documentBuilder.parse("Catalog.xml");
                     load.addUser(document1, u);
                     break;
                 }
-//                case 'r'://ПОЛУЧЕНИЕ ЗАПИСЕЙ ВСЕХ
-//                {
-//                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-//                            out.writeObject(currentTaskLog.getRecord(i));
-//                        }
-//                    break;
-//                }
+
             }
             out.flush();
            
