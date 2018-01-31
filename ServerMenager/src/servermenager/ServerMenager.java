@@ -63,6 +63,7 @@ public class ServerMenager {
                 //GET RECORDS
                 case 'G':
                 {
+                    int g=currentTaskLog.getNumberOfRecords();
                     out.writeInt(currentTaskLog.getNumberOfRecords());
                     for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
 //                        out.writeObject(currentTaskLog.getRecord(i));
