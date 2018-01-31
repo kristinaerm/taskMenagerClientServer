@@ -52,6 +52,9 @@ public class ServerMenager {
 
         ObjectInputStream in = new ObjectInputStream(client.getInputStream());
         ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+        
+        String na, de,ti,co,id;
+        
         char cc;
         while (true) {
 
@@ -62,7 +65,13 @@ public class ServerMenager {
                 {
                     out.writeInt(currentTaskLog.getNumberOfRecords());
                     for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
-                        out.writeObject(currentTaskLog.getRecord(i));
+//                        out.writeObject(currentTaskLog.getRecord(i));
+                        out.writeUTF(currentTaskLog.getRecord(i).getName());                        
+                        out.writeUTF(currentTaskLog.getRecord(i).getDescription());
+                        out.writeUTF(currentTaskLog.getRecord(i).getTimeString());
+                        out.writeUTF(currentTaskLog.getRecord(i).getContacts());
+                        out.writeUTF(currentTaskLog.getRecord(i).getId());
+                        out.flush();
                     }
                     System.out.println("Задачи переданы на клиент!");
                     break;
@@ -70,7 +79,12 @@ public class ServerMenager {
                 //ADD
                 case 'A':
                 {
-                    rec = (Record) in.readObject();
+//                    rec = (Record) in.readObject();
+                    na = in.readUTF();
+                de = in.readUTF();
+                ti = in.readUTF();
+                co = in.readUTF();
+                rec = new Record(na,de,ti,co);
                     currentTaskLog.addRecord(rec);
 
 //                    out.writeInt(currentTaskLog.getNumberOfRecords());
@@ -113,6 +127,7 @@ public class ServerMenager {
 //                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
 //                        out.writeObject(currentTaskLog.getRecord(i));
 //                    }
+                       out.flush();
                     break;
                 }
 //                //Execute

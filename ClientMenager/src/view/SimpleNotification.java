@@ -8,6 +8,8 @@ package view;
 import clientmenager.Controller;
 import clientmenager.Record;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -152,7 +154,11 @@ public class SimpleNotification extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Controller.deleteRecord(number);
+        try {
+            Controller.deleteRecord(number);
+        } catch (IOException ex) {
+            Logger.getLogger(SimpleNotification.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             Controller.updateTable();
         } catch (IOException | ClassNotFoundException ex) {
