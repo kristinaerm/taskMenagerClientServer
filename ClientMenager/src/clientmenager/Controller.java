@@ -29,11 +29,9 @@ public class Controller {
         out.writeChar('G');
         out.flush();
         int size = in.readInt();
-<<<<<<< HEAD
+
        records=new Record[size];
-=======
-        records = new Record[size];
->>>>>>> 4292e3ba92a6f21e50b5f64266171623ea88d399
+
         for (int i=0; i<size; i++){
             try {
                 //            records[i]=(Record)in.readObject();
