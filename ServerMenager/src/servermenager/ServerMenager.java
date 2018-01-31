@@ -163,8 +163,11 @@ public class ServerMenager {
 //                }
             }
             out.flush();
+           
+            
      
         }
+        
     }
 
 }
