@@ -46,7 +46,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         records = Controller.records;
-        updateNotification();
+        //updateNotification();
 
     }
 // public SimpleTaskManager(User user) throws ParserConfigurationException, SAXException, IOException {
@@ -256,7 +256,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
                 rec = new Record(jTextField1.getText(), jTextField3.getText(), jTextField2.getText(), jTextField4.getText());
                 Controller.addRecord(rec);                
                     clear();
-                    updateNotification();
+                    //updateNotification();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
@@ -280,7 +280,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
                     frame.setVisible(true);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     clear();
-                    updateNotification();
+                    //updateNotification();
                 }
             }
             clear();
@@ -297,7 +297,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
             if (!"".equals(jTable1.getSelectedRow())) {
                 Controller.deleteRecord(jTable1.getSelectedRow());
                 clear();
-                updateNotification();
+                //updateNotification();
             }
             clear();
         } catch (Exception e) {
@@ -319,7 +319,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     //*****************************************************************************************
-    private void updateNotification() {
+    public static void updateNotification() {
 
         try {
             timer.cancel();
@@ -452,10 +452,10 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         }
     }
 
-    private Record[] records;
-    private Timer timer = new Timer();
-    private Timer[] timers;
-    private DefaultTableModel model = new javax.swing.table.DefaultTableModel(
+    public static Record[] records;
+    private static Timer timer = new Timer();
+    private static Timer[] timers;
+    private static DefaultTableModel model = new javax.swing.table.DefaultTableModel(
             new Object[][]{
                 {null, null, null, null, null}
             },
