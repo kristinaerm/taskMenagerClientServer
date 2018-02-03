@@ -2,6 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+<<<<<<< HEAD
+            <file>file:/C:/Users/Кристина/Documents/GitHub/taskMenagerClientServer/ServerMenager/src/model/Record.java</file>
+            <file>file:/C:/Users/Кристина/Documents/GitHub/taskMenagerClientServer/ServerMenager/src/model/TaskLog.java</file>
+            <file>file:/C:/Users/Кристина/Documents/GitHub/taskMenagerClientServer/ServerMenager/src/servermenager/ServerMenager.java</file>
+=======
+            <file>file:/C:/Users/USER/Documents/GitHub/taskMenagerClientServer/ServerMenager/src/servermenager/ServerMenager.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/taskMenagerClientServer/ServerMenager/src/model/TaskLog.java</file>
+>>>>>>> c8c07a6a24c09f7c1956a170a4817d33ea6ae7ac
+        </group>
+>>>>>>> 9b10b0ed603fa34b3ba9e41368627b6f22508fde
     </open-files>
 </project-private>

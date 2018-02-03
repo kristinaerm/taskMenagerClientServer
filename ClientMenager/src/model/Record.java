@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clientmenager;
+package model;
 
+import clientmenager.DataCheck;
+import clientmenager.DataCheck;
 import exceptions.InvalidRecordFieldException;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -16,7 +18,9 @@ import java.util.UUID;
  *
  * @author USER
  */
-public class Record implements Comparable, Serializable {
+
+public class Record implements Comparable,Serializable {
+
 
     private String id;
     private String name;

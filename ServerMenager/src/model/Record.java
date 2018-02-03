@@ -16,7 +16,10 @@ import java.util.UUID;
  *
  * @author USER
  */
-public class Record implements Comparable, Serializable {
+
+
+public class Record implements Comparable,Serializable {
+
 
     private String id;
     private String name;

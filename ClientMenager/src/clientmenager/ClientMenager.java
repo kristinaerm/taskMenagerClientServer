@@ -5,12 +5,15 @@
  */
 package clientmenager;
 
+import exceptions.InvalidRecordFieldException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import view.SimpleTaskManager;
@@ -110,6 +113,8 @@ public class ClientMenager {
 
         } catch (IOException e) {
             System.err.println(e);
+        } catch (InvalidRecordFieldException ex) {
+            Logger.getLogger(ClientMenager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

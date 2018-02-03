@@ -5,8 +5,8 @@
  */
 package view;
 
+import model.Record;
 import clientmenager.Controller;
-import clientmenager.Record;
 import java.util.TimerTask;
 import javax.swing.JFrame;
 

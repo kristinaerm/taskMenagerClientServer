@@ -5,9 +5,12 @@
  */
 package view;
 
+import model.Record;
 import clientmenager.Controller;
-import clientmenager.Record;
+import exceptions.InvalidRecordFieldException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -142,10 +145,13 @@ public class ChangeRecord extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            Controller.changeRecord(r.getId(), jTextField2.getText(), jTextField1.getText(), jTextField3.getText(), jTextField4.getText());
-            Controller.updateTable();
+           // Controller.changeRecord(r.getId(), jTextField2.getText(), jTextField1.getText(), jTextField3.getText(), jTextField4.getText());
+            Controller.changeRecord(r);
+           Controller.updateTable();
         } catch (IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
+        } catch (InvalidRecordFieldException ex) {
+            Logger.getLogger(ChangeRecord.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -5,10 +5,12 @@
  */
 package clientmenager;
 
+import model.Record;
 import exceptions.InvalidRecordFieldException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +22,7 @@ import static view.SimpleTaskManager.records;
  *
  * @author USER
  */
-public class Controller {
+public class Controller implements Serializable {
 
     public static ObjectInputStream in;
     public static ObjectOutputStream out;
@@ -28,26 +30,29 @@ public class Controller {
     public static Record[] records;
     public static LinkedList<String> list = new LinkedList();
 
-    public static void updateTable() throws IOException, ClassNotFoundException {
+    public static void updateTable() throws IOException, ClassNotFoundException, InvalidRecordFieldException {
         String na, de, ti, co, id;
         out.writeChar('G');
         out.flush();
         int size = in.readInt();
         records = new Record[size];
 
-        for (int i = 0; i < size; i++) {
-            try {
-                //            records[i]=(Record)in.readObject();
-                na = in.readUTF();
-                de = in.readUTF();
-                ti = in.readUTF();
-                co = in.readUTF();
-                records[i] = new Record(na, de, ti, co);
-                id = in.readUTF();
-                records[i].setId(id);
-            } catch (InvalidRecordFieldException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        for (int i = 0; i < records.length; i++) {
+            
+                records[i]=(Record)in.readObject();
+           //    records[i] = new Record(records[i].getName(), records[i].getDescription(), records[i].getTimeString(), records[i].getContacts());
+                id = records[i].getId();
+               records[i].setId(id);
+
+               // na = in.readUTF();
+              //  de = in.readUTF();
+             //   ti = in.readUTF();
+             //   co = in.readUTF();
+//                records[i] = new Record(na, de, ti, co);
+//                id = in.readUTF();
+//                records[i].setId(id);
+
+           
         }
 
         while (model.getRowCount() != 0) {
@@ -62,26 +67,28 @@ public class Controller {
         SimpleTaskManager.updateNotification();
     }
 
-    public static void addRecord(Record rec) throws IOException, ClassNotFoundException {
+    public static void addRecord(Record rec) throws IOException, ClassNotFoundException, InvalidRecordFieldException {
         out.writeChar('A');
         out.flush();
-        out.writeUTF(rec.getName());
-        out.writeUTF(rec.getDescription());
-        out.writeUTF(rec.getTimeString());
-        out.writeUTF(rec.getContacts());
+        out.writeObject(rec);
+//        out.writeUTF(rec.getName());
+//        out.writeUTF(rec.getDescription());
+//        out.writeUTF(rec.getTimeString());
+//        out.writeUTF(rec.getContacts());
         out.flush();
         updateTable();
 
     }
 
-    public static String changeRecord(String id, String n, String t, String d, String c) throws IOException, ClassNotFoundException {
+    public static String changeRecord(Record rec) throws IOException, ClassNotFoundException, InvalidRecordFieldException {
         out.writeChar('C');
         out.flush();
-        out.writeUTF(id);
-        out.writeUTF(n);
-        out.writeUTF(t);
-        out.writeUTF(d);
-        out.writeUTF(c);
+        out.writeObject(rec);
+//        out.writeUTF(id);
+//        out.writeUTF(n);
+//        out.writeUTF(t);
+//        out.writeUTF(d);
+//        out.writeUTF(c);
         out.flush();
         String answer = in.readUTF();
         updateTable();
@@ -93,10 +100,11 @@ public class Controller {
 
     }
 
-    public static void deleteRecord(String id) throws IOException, ClassNotFoundException {
+    public static void deleteRecord(Record rec) throws IOException, ClassNotFoundException, InvalidRecordFieldException {
         out.writeChar('D');
         out.flush();
-        out.writeUTF(id);
+       // out.writeUTF(id);
+        out.writeObject(rec);
         out.flush();
         updateTable();
     }
