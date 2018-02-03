@@ -50,22 +50,21 @@ public class ServerMenager {
 
         ObjectInputStream in = new ObjectInputStream(client.getInputStream());
         ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
-        
-        String na, de,ti,co,id;
-        
+
+        String na, de, ti, co, id;
+
         char cc;
         while (true) {
 
             cc = in.readChar();
             switch (cc) {
                 //GET RECORDS
-                case 'G':
-                {
-                    int g=currentTaskLog.getNumberOfRecords();
+                case 'G': {
+                    int g = currentTaskLog.getNumberOfRecords();
                     out.writeInt(currentTaskLog.getNumberOfRecords());
                     for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
 //                        out.writeObject(currentTaskLog.getRecord(i));
-                        out.writeUTF(currentTaskLog.getRecord(i).getName());                        
+                        out.writeUTF(currentTaskLog.getRecord(i).getName());
                         out.writeUTF(currentTaskLog.getRecord(i).getDescription());
                         out.writeUTF(currentTaskLog.getRecord(i).getTimeString());
                         out.writeUTF(currentTaskLog.getRecord(i).getContacts());
@@ -76,14 +75,13 @@ public class ServerMenager {
                     break;
                 }
                 //ADD
-                case 'A':
-                {
+                case 'A': {
 //                    rec = (Record) in.readObject();
-                na = in.readUTF();
-                de = in.readUTF();
-                ti = in.readUTF();
-                co = in.readUTF();
-                rec = new Record(na,de,ti,co);
+                    na = in.readUTF();
+                    de = in.readUTF();
+                    ti = in.readUTF();
+                    co = in.readUTF();
+                    rec = new Record(na, de, ti, co);
                     currentTaskLog.addRecord(rec);
 
 //                    out.writeInt(currentTaskLog.getNumberOfRecords());
@@ -94,10 +92,9 @@ public class ServerMenager {
                     break;
                 }
                 //Delete
-                case 'D':
-                {
-                    countTask = in.readInt();
-                    currentTaskLog.deleteRecord(countTask);
+                case 'D': {
+                    id = in.readUTF();
+                    currentTaskLog.deleteRecord(id);
 //                    out.writeInt(currentTaskLog.getNumberOfRecords());
 //                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
 //                        out.writeObject(currentTaskLog.getRecord(i));
@@ -107,26 +104,24 @@ public class ServerMenager {
                     break;
                 }
                 //Change
-                case 'C': 
-                {
+                case 'C': {
 
-                    countTask = in.readInt();
+                    id = in.readUTF();
                     String name = in.readUTF();
                     String time = in.readUTF();
                     String des = in.readUTF();
                     String cont = in.readUTF();
-                    try{
-                        currentTaskLog.changeRecord(countTask, name, time, des, cont);
+                    try {
+                        currentTaskLog.changeRecord(id, name, time, des, cont);
                         out.writeUTF("OK");
-                    }
-                    catch (InvalidRecordFieldException ex){
+                    } catch (InvalidRecordFieldException | IndexOutOfBoundsException ex) {
                         out.writeUTF(ex.getMessage());
                     }
 //                    out.writeInt(currentTaskLog.getNumberOfRecords());
 //                    for (int i = 0; i < currentTaskLog.getNumberOfRecords(); i++) {
 //                        out.writeObject(currentTaskLog.getRecord(i));
 //                    }
-                       out.flush();
+                    out.flush();
                     break;
                 }
 
@@ -139,11 +134,9 @@ public class ServerMenager {
 
             }
             out.flush();
-           
-            
-     
+
         }
-        
+
     }
 
 }

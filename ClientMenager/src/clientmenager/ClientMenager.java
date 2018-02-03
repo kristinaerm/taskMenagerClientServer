@@ -24,16 +24,14 @@ public class ClientMenager {
     /**
      * @param args the command line arguments
      */
-
     static int serverPort = 1024;
     static String address = "localhost";
     static Socket socket = null;
     static ObjectOutputStream out = null;
     static ObjectInputStream in = null;
-    
+
     public static void main(String[] args) {
         // TODO code application logic here
-        
 
         try {
 
@@ -45,7 +43,7 @@ public class ClientMenager {
 
             Controller.in = in;
             Controller.out = out;
-            
+
             SimpleTaskManager frame = new SimpleTaskManager();
             frame.setResizable(false);
             frame.pack();
@@ -110,7 +108,6 @@ public class ClientMenager {
                 }
             });
 
-            
         } catch (IOException e) {
             System.err.println(e);
         }
