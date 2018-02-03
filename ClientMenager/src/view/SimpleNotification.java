@@ -171,7 +171,11 @@ public class SimpleNotification extends javax.swing.JFrame {
         try {
             Controller.list.remove(record.getId());
            // String result = Controller.changeRecord(record.getId(), jTextField2.getText(), jTextField5.getText(), jTextField3.getText(), jTextField4.getText());
-            String result = Controller.changeRecord(record);
+           record.setName(jTextField2.getText());
+           record.setTime(jTextField5.getText());
+           record.setDescription(jTextField3.getText());
+           record.setContacts(jTextField4.getText());
+           String result = Controller.changeRecord(record);
             if (result.equals("OK")) {                
                 Controller.updateTable();
                 this.dispose();
