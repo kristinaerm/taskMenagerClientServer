@@ -254,9 +254,9 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
             try {
                 rec = new Record(jTextField1.getText(), jTextField3.getText(), jTextField2.getText(), jTextField4.getText());
-                Controller.addRecord(rec);                
-                    clear();
-                    //updateNotification();
+                Controller.addRecord(rec);
+                clear();
+                //updateNotification();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
@@ -331,7 +331,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         int i = 0;
         if (records.length > 0) {
 
-            while ((records.length> (i + 1)) && (records[i].compareTo(records[i + 1]) == 0)) {
+            while ((records.length > (i + 1)) && (records[i].compareTo(records[i + 1]) == 0)) {
                 n++;
                 i++;
             }

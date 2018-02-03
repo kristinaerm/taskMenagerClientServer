@@ -50,8 +50,8 @@ public class TaskLog {
     public LinkedList<Record> getRecords() {
         return records;
     }
-    
-    public Object[] getRecordsArray(){
+
+    public Object[] getRecordsArray() {
         return records.toArray();
     }
 
@@ -71,7 +71,7 @@ public class TaskLog {
         return data;
     }
 
-    public void changeRecord(int n, String na, String ti, String des, String con) throws InvalidRecordFieldException  {
+    public void changeRecord(int n, String na, String ti, String des, String con) throws InvalidRecordFieldException {
         records.get(n);
         if ((!na.equals(""))) {
             records.get(n).setName(na);
@@ -90,7 +90,7 @@ public class TaskLog {
     }
 
     public void changeRecord(String id, String na, String ti, String des, String con) throws InvalidRecordFieldException, IndexOutOfBoundsException {
-        
+
         records.get(getNumberById(id));
         if ((!na.equals(""))) {
             records.get(getNumberById(id)).setName(na);
@@ -107,18 +107,19 @@ public class TaskLog {
         sort();
         //updateTable();
     }
-    
 
-    
-    public int getNumberById(String id) throws IndexOutOfBoundsException{
-        int i=0;
-        while ((i< records.size())&&(!records.get(i).getId().equals(id))){
+    public int getNumberById(String id) throws IndexOutOfBoundsException {
+        int i = 0;
+        while ((i < records.size()) && (!records.get(i).getId().equals(id))) {
             i++;
         }
-        if (i==records.size()) throw new IndexOutOfBoundsException();
-        else return i;
+        if (i == records.size()) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            return i;
+        }
     }
-    
+
     public Record getRecord(int n) {
 
         return records.get(n);
@@ -134,13 +135,15 @@ public class TaskLog {
         records.remove(n);
         //updateTable();
     }
-    
+
     public void deleteRecord(String id) {
-        int n = 0;
         int i = 0;
-        while ((i<getNumberOfRecords())&&(!records.get(i).getId().equals(id)))i++;
-        if (i<getNumberOfRecords())
-        records.remove(n);
+        while ((i < getNumberOfRecords()) && (!records.get(i).getId().equals(id))) {
+            i++;
+        }
+        if (i < getNumberOfRecords()) {
+            records.remove(i);
+        }
         //updateTable();
     }
 

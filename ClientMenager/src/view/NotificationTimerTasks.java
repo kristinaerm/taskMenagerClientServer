@@ -5,6 +5,7 @@
  */
 package view;
 
+import clientmenager.Controller;
 import clientmenager.Record;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -14,12 +15,12 @@ import javax.swing.JFrame;
  * @author USER
  */
 public class NotificationTimerTasks extends TimerTask {
-    
+
     private static int num;
     private static Record[] records;
-    
-    public NotificationTimerTasks(int nu, Record[] records){
-        num=nu;
+
+    public NotificationTimerTasks(int nu, Record[] records) {
+        num = nu;
         this.records = records;
     }
 
@@ -27,12 +28,15 @@ public class NotificationTimerTasks extends TimerTask {
     public void run() {
         SimpleNotification[] frames = new SimpleNotification[num];
         for (int i = 0; i < num; i++) {
-            frames[i] = new SimpleNotification(i, records[i]);
-            frames[i].setResizable(false);
-            frames[i].pack();
-            frames[i].setLocationRelativeTo(null);
-            frames[i].setVisible(true);
-            frames[i].setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            if (!Controller.list.contains(records[i].getId())) {
+                Controller.list.add(records[i].getId());                        
+                frames[i] = new SimpleNotification(i, records[i]);
+                frames[i].setResizable(false);
+                frames[i].pack();
+                frames[i].setLocationRelativeTo(null);
+                frames[i].setVisible(true);
+                frames[i].setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            }
         }
     }
 

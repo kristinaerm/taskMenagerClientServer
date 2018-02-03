@@ -19,14 +19,13 @@ public class ChangeRecord extends javax.swing.JFrame {
     /**
      * Creates new form ChandeRecord
      */
-    
-    private int num=0;
+    private int num = 0;
     private Record r;
-    
+
     public ChangeRecord() {
         initComponents();
     }
-    
+
     public ChangeRecord(int nu, Record rec) {
         initComponents();
         num = nu;

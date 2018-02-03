@@ -21,16 +21,14 @@ public class SimpleNotification extends javax.swing.JFrame {
     /**
      * Creates new form NotificationInterface
      */
-    private int number;
     private Record record;
-    
+
     public SimpleNotification() {
         initComponents();
     }
 
     public SimpleNotification(int nu, Record rec) {
         initComponents();
-        number=nu;
         record = rec;
         jTextField1.setText(rec.getTimeString());
         jTextField2.setText(rec.getName());
@@ -155,34 +153,29 @@ public class SimpleNotification extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
+            Controller.list.remove(record.getId());
             Controller.deleteRecord(record.getId());
         } catch (IOException ex) {
             Logger.getLogger(SimpleNotification.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SimpleNotification.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            Controller.updateTable();
-        } catch (IOException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());}
-        finally{
-            this.dispose();
-        }
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
+            Controller.list.remove(record.getId());
             String result = Controller.changeRecord(record.getId(), jTextField2.getText(), jTextField5.getText(), jTextField3.getText(), jTextField4.getText());
-            if (result.equals("OK")){
+            if (result.equals("OK")) {                
                 Controller.updateTable();
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, result);
-            }            
+            }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-        finally{
+        } finally {
             this.dispose();
         }
     }//GEN-LAST:event_jButton2ActionPerformed

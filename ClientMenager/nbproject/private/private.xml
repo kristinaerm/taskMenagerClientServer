@@ -3,18 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/USER/Documents/GitHub/taskMenagerClientServer/ClientMenager/src/view/ChangeRecord.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/C:/Users/Кристина/Documents/GitHub/taskMenagerClientServer/ClientMenager/src/clientmenager/ClientMenager.java</file>
-            <file>file:/C:/Users/Кристина/Documents/GitHub/taskMenagerClientServer/ClientMenager/src/clientmenager/Record.java</file>
-=======
->>>>>>> 1d82808ccd5b756aba45999b3f4c06b69110134b
+            <file>file:/C:/Users/USER/Documents/GitHub/taskMenagerClientServer/ClientMenager/src/view/SimpleNotification.java</file>
             <file>file:/C:/Users/USER/Documents/GitHub/taskMenagerClientServer/ClientMenager/src/clientmenager/Controller.java</file>
             <file>file:/C:/Users/USER/Documents/GitHub/taskMenagerClientServer/ClientMenager/src/view/SimpleTaskManager.java</file>
             <file>file:/C:/Users/USER/Documents/GitHub/taskMenagerClientServer/ClientMenager/src/clientmenager/ClientMenager.java</file>
->>>>>>> 0e4d3c411472f0c932d90ddcb1c786c01c51fbd4
         </group>
     </open-files>
 </project-private>

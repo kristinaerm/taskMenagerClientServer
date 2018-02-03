@@ -16,14 +16,7 @@ import java.util.UUID;
  *
  * @author USER
  */
-
-<<<<<<< HEAD
-
-public class Record implements Comparable,Serializable {
-=======
-public class Record implements Comparable,Serializable {
-
->>>>>>> 0e4d3c411472f0c932d90ddcb1c786c01c51fbd4
+public class Record implements Comparable, Serializable {
 
     private String id;
     private String name;
@@ -44,17 +37,17 @@ public class Record implements Comparable,Serializable {
         if (DataCheck.nameCheck(n)) {
             if (DataCheck.descriptionCheck(d)) {
                 if (DataCheck.contactsCheck(c)) {
-                    
-                        name = n;
-                        description = d;
-                        contacts = c;
-                        try {
-                            time = dateTimeFormatter.parse(t);
-                        } catch (ParseException e) {
-                            time = new Date();
-                        }
-                        id = UUID.randomUUID().toString();
-                    
+
+                    name = n;
+                    description = d;
+                    contacts = c;
+                    try {
+                        time = dateTimeFormatter.parse(t);
+                    } catch (ParseException e) {
+                        time = new Date();
+                    }
+                    id = UUID.randomUUID().toString();
+
                 } else {
                     throw new InvalidRecordFieldException("Длина поля контактов не должна превышать 15 символов.");
                 }
