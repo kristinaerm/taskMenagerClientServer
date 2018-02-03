@@ -6,6 +6,7 @@
 package model;
 
 import exceptions.InvalidRecordFieldException;
+import java.io.Serializable;
 //import view.SimpleTaskManager;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -17,7 +18,7 @@ import view.Transfer;
  *
  * @author USER
  */
-public class TaskLog {
+public class TaskLog implements Serializable{
 
     private static final String[] COLUMN_NAMES = {"№", "Название", "Время и дата", "Описание", "Контакты"};
     private LinkedList<Record> records;

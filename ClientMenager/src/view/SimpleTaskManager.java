@@ -5,8 +5,9 @@
  */
 package view;
 
+import model.Record;
 import clientmenager.Controller;
-import clientmenager.Record;
+import exceptions.InvalidRecordFieldException;
 import java.awt.AWTException;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -36,7 +37,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
     /**
      * Creates new form TaskManagerInterface
      */
-    public SimpleTaskManager() {
+    public SimpleTaskManager() throws InvalidRecordFieldException {
         initComponents();
         Controller.model = model;
         clear();
@@ -295,7 +296,8 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             if (!"".equals(jTable1.getSelectedRow())) {
-                Controller.deleteRecord(records[jTable1.getSelectedRow()].getId());
+             //   Controller.deleteRecord(records[jTable1.getSelectedRow()].getId());
+                 Controller.deleteRecord(records[jTable1.getSelectedRow()]);
                 clear();
                 //updateNotification();
             }
@@ -379,7 +381,11 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SimpleTaskManager().setVisible(true);
+                try {
+                    new SimpleTaskManager().setVisible(true);
+                } catch (InvalidRecordFieldException ex) {
+                    Logger.getLogger(SimpleTaskManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
