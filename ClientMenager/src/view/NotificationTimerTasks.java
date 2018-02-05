@@ -16,8 +16,8 @@ import javax.swing.JFrame;
  */
 public class NotificationTimerTasks extends TimerTask {
 
-    private static int num;
-    private static Record[] records;
+    private int num;
+    private Record[] records;
 
     public NotificationTimerTasks(int nu, Record[] records) {
         num = nu;
@@ -28,9 +28,9 @@ public class NotificationTimerTasks extends TimerTask {
     public void run() {
         SimpleNotification[] frames = new SimpleNotification[num];
         for (int i = 0; i < num; i++) {
-            if (!Controller.list.contains(records[i].getId())) {
-                Controller.list.add(records[i].getId());                        
-                frames[i] = new SimpleNotification(i, records[i]);
+            if (!Controller.isExposed(records[i].getId())) {
+                Controller.addRecordToCurrentExposedList(records[i].getId());
+                frames[i] = new SimpleNotification(records[i]);
                 frames[i].setResizable(false);
                 frames[i].pack();
                 frames[i].setLocationRelativeTo(null);

@@ -44,8 +44,7 @@ public class ClientMenager {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
 
-            Controller.in = in;
-            Controller.out = out;
+            Controller.setInputOutputStream(in, out);
 
             SimpleTaskManager frame = new SimpleTaskManager();
             frame.setResizable(false);
@@ -111,9 +110,7 @@ public class ClientMenager {
                 }
             });
 
-        } catch (IOException e) {
-            System.err.println(e);
-        } catch (InvalidRecordFieldException ex) {
+        } catch (IOException | InvalidRecordFieldException ex) {
             Logger.getLogger(ClientMenager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

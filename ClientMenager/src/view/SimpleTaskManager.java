@@ -36,36 +36,20 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
     /**
      * Creates new form TaskManagerInterface
+     *
+     * @throws exceptions.InvalidRecordFieldException
      */
     public SimpleTaskManager() throws InvalidRecordFieldException {
         initComponents();
-        Controller.model = model;
+        Controller.setTableModel(MODEL);
         clear();
         try {
             Controller.updateTable();
         } catch (IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-        records = Controller.records;
-        //updateNotification();
-
+        records = Controller.getRecords();
     }
-// public SimpleTaskManager(User user) throws ParserConfigurationException, SAXException, IOException {
-//        initComponents();
-//        currentUser = user;
-//        jLabel1.setText(jLabel1.getText() + " " + user.getLogin());
-//        // Создается построитель документа
-//        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-//           // Создается дерево DOM документа из файла
-//        currentDocument = documentBuilder.parse("other.xml");
-//        currentUser = LoaderXML.readDocument(currentDocument);
-//        currentTaskLog = user.getTaskLog();
-//        Transfer.table = jTable1;
-//        Transfer.tl = currentTaskLog;
-//        Transfer.model = model;
-//        currentTaskLog.updateTable();
-//        updateNotification();
-//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -143,7 +127,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jTable1.setModel(model);
+        jTable1.setModel(MODEL);
         jScrollPane2.setViewportView(jTable1);
 
         jScrollPane1.setViewportView(jScrollPane2);
@@ -249,19 +233,15 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
         Record rec = null;
         if ((!"".equals(jTextField1.getText())) && (!"".equals(jTextField2.getText())) && (!"".equals(jTextField3.getText())) && (!"".equals(jTextField4.getText()))) {
-
             try {
                 rec = new Record(jTextField1.getText(), jTextField3.getText(), jTextField2.getText(), jTextField4.getText());
                 Controller.addRecord(rec);
                 clear();
-                //updateNotification();
-            } catch (Exception ex) {
+            } catch (InvalidRecordFieldException | IOException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-
         } else {
             JOptionPane.showMessageDialog(null, "Для добавления записи все поля необходимо заполнить!");
         }
@@ -270,18 +250,16 @@ public class SimpleTaskManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
         try {
             if (!"".equals(jTable1.getSelectedRow())) {
                 if (jTable1.getSelectedRow() < records.length) {
-                    ChangeRecord frame = new ChangeRecord(jTable1.getSelectedRow(), records[jTable1.getSelectedRow()]);
+                    ChangeRecord frame = new ChangeRecord(records[jTable1.getSelectedRow()]);
                     frame.setResizable(false);
                     frame.pack();
                     frame.setLocationRelativeTo(null);
                     frame.setVisible(true);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     clear();
-                    //updateNotification();
                 }
             }
             clear();
@@ -296,13 +274,11 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             if (!"".equals(jTable1.getSelectedRow())) {
-             //   Controller.deleteRecord(records[jTable1.getSelectedRow()].getId());
-                 Controller.deleteRecord(records[jTable1.getSelectedRow()]);
+                Controller.deleteRecord(records[jTable1.getSelectedRow()]);
                 clear();
-                //updateNotification();
             }
             clear();
-        } catch (Exception e) {
+        } catch (InvalidRecordFieldException | IOException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Номер записи указан не верно!");
         }
 
@@ -311,7 +287,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
             Controller.saveTaskLog();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Не удалось сохранить журнал: " + ex.getMessage());
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -320,12 +296,10 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    //*****************************************************************************************
     public static void updateNotification() {
-
         try {
             timer.cancel();
-            int purge = timer.purge();
+            timer.purge();
         } catch (Exception e) {
         }
 
@@ -347,7 +321,6 @@ public class SimpleTaskManager extends javax.swing.JFrame {
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
-
     }
 
     /**
@@ -380,6 +353,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     new SimpleTaskManager().setVisible(true);
@@ -398,6 +372,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
             iconTray = new TrayIcon(ImageIO.read(new File("Ikonka.jpg")));
             iconTray.setImageAutoSize(true);
             iconTray.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent ev) {
 
                     setVisible(true);
@@ -442,6 +417,7 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
             iconTray.addMouseMotionListener(mouM);
             addWindowStateListener(new WindowStateListener() {
+                @Override
                 public void windowStateChanged(WindowEvent ev) {
                     if (ev.getNewState() == JFrame.ICONIFIED) {
                         setVisible(false);
@@ -451,17 +427,18 @@ public class SimpleTaskManager extends javax.swing.JFrame {
             });
 
             sT.add(iconTray);
-        } catch (IOException ex) {
-            Logger.getLogger(SimpleTaskManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AWTException ex) {
+        } catch (IOException | AWTException ex) {
             Logger.getLogger(SimpleTaskManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static Record[] records;
+    public static void setReacords(Record[] r) {
+        records = r;
+    }
+
+    private static Record[] records;
     private static Timer timer = new Timer();
-    private static Timer[] timers;
-    private static DefaultTableModel model = new javax.swing.table.DefaultTableModel(
+    private static final DefaultTableModel MODEL = new javax.swing.table.DefaultTableModel(
             new Object[][]{
                 {null, null, null, null, null}
             },
