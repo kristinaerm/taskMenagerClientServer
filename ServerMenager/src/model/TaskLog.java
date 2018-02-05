@@ -7,12 +7,8 @@ package model;
 
 import exceptions.InvalidRecordFieldException;
 import java.io.Serializable;
-//import view.SimpleTaskManager;
 import java.util.LinkedList;
 import java.util.UUID;
-import javax.swing.JTable;
-import org.w3c.dom.Document;
-import view.Transfer;
 
 /**
  *
@@ -30,18 +26,6 @@ public class TaskLog implements Serializable{
         records = rec;
         sort();
 
-    }
-
-    public void updateTable() {
-
-        while (Transfer.model.getRowCount() != 0) {
-            for (int i = 0; i < Transfer.model.getRowCount(); i++) {
-                Transfer.model.removeRow(i);
-            }
-        }
-        for (int i = 0; i < records.size(); i++) {
-            Transfer.model.addRow(new Object[]{i, getRecord(i).getName(), getRecord(i).getTimeString(), getRecord(i).getDescription(), getRecord(i).getContacts()});
-        }
     }
 
     public String getId() {
@@ -87,7 +71,6 @@ public class TaskLog implements Serializable{
             records.get(n).setContacts(con);
         }
         sort();
-        //updateTable();
     }
 
     public void changeRecord(String id, String na, String ti, String des, String con) throws InvalidRecordFieldException, IndexOutOfBoundsException {
@@ -106,7 +89,6 @@ public class TaskLog implements Serializable{
             records.get(getNumberById(id)).setContacts(con);
         }
         sort();
-        //updateTable();
     }
 
     public int getNumberById(String id) throws IndexOutOfBoundsException {
@@ -129,12 +111,10 @@ public class TaskLog implements Serializable{
     public void addRecord(Record rec) {
         records.add(rec);
         sort();
-        //updateTable();
     }
 
     public void deleteRecord(int n) {
         records.remove(n);
-        //updateTable();
     }
 
     public void deleteRecord(String id) {
@@ -145,10 +125,9 @@ public class TaskLog implements Serializable{
         if (i < getNumberOfRecords()) {
             records.remove(i);
         }
-        //updateTable();
     }
 
-    public void sort() {
+    private void sort() {
         Record temp = null;
 
         for (int j = 0; j < records.size(); j++) {
