@@ -15,14 +15,14 @@ import java.util.UUID;
 //  проверочка
 public class User {
 
-    private String id;
+    private final String id;
     private final String login;
     private final String password;
     private TaskLog taskLog;
 
     //убрать строку передачи айдишника!!!
     public User(String i, String l, String p, LinkedList<Record> rec) {
-        id = UUID.randomUUID().toString();;
+        id = UUID.randomUUID().toString();
         login = l;
         password = p;
         taskLog = new TaskLog(rec);

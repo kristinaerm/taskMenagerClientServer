@@ -5,6 +5,7 @@
  */
 package clientmenager;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
@@ -13,33 +14,24 @@ import java.text.SimpleDateFormat;
  */
 public class DataCheck {
 
-    private static SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private static final SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public static boolean nameCheck(String name) {
-        if (name.length() > 15) {
-            return false;
-        }
-        return true;
+        return name.length() <= 15;
     }
 
     public static boolean descriptionCheck(String description) {
-        if (description.length() > 30) {
-            return false;
-        }
-        return true;
+        return description.length() <= 30;
     }
 
     public static boolean contactsCheck(String contacts) {
-        if (contacts.length() > 15) {
-            return false;
-        }
-        return true;
+        return contacts.length() <= 15;
     }
 
     public static boolean timeCheck(String time) {
         try {
             long curTime = System.currentTimeMillis();
-            String curStringDate = dateTimeFormatter.format(curTime);
+            String curStringDate = DATETIMEFORMATTER.format(curTime);
             int y = Integer.parseInt(time.substring(0, 4));
             int m = Integer.parseInt(time.substring(5, 7));
             int d = Integer.parseInt(time.substring(8, 10));
@@ -57,13 +49,13 @@ public class DataCheck {
                     if (d >= td) {
                         if (hh > thh) {
 
-                            dateTimeFormatter.parse(time);
+                            DATETIMEFORMATTER.parse(time);
                             return true;
 
                         } else {
                             if (hh == thh) {
                                 if (minut >= tminut) {
-                                    dateTimeFormatter.parse(time);
+                                    DATETIMEFORMATTER.parse(time);
                                     return true;
                                 }
                             }
@@ -77,7 +69,8 @@ public class DataCheck {
                 return false;
             }
 
-        } catch (Exception ex) {
+        } catch (NumberFormatException | ParseException ex) {
+            return false;
         }
 
         return false;

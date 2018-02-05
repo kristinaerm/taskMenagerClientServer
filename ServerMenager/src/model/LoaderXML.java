@@ -26,12 +26,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import static model.Record.dateTimeFormatter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import static model.Record.DATETIMEFORMATTER;
 //ED3ED3ED3ED3ED3D3ED3ED
 
 /**
@@ -137,7 +137,7 @@ public class LoaderXML implements Loader {
                 timedate1 = element.getElementsByTagName("timedate1").item(0).getTextContent();
                 if (!DataCheck.timeCheck(timedate1)) {
                     Date date = new Date();
-                    timedate1 = dateTimeFormatter.format(date);
+                    timedate1 = DATETIMEFORMATTER.format(date);
                 }
                 contacts1 = element.getElementsByTagName("contacts1").item(0).getTextContent();
                 if (!DataCheck.contactsCheck(contacts1)) {
@@ -167,7 +167,6 @@ public class LoaderXML implements Loader {
         DOMSource source = new DOMSource(document);
         FileOutputStream fos = new FileOutputStream("other.xml");
         StreamResult result = new StreamResult(fos);
-
         tr.transform(source, result);
 
     }

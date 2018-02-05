@@ -19,19 +19,14 @@ import javax.swing.JOptionPane;
  */
 public class ChangeRecord extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ChandeRecord
-     */
-    private int num = 0;
     private Record r;
 
     public ChangeRecord() {
         initComponents();
     }
 
-    public ChangeRecord(int nu, Record rec) {
+    public ChangeRecord(Record rec) {
         initComponents();
-        num = nu;
         r = rec;
         jTextField1.setText(rec.getTimeString());
         jTextField2.setText(rec.getName());
@@ -144,14 +139,12 @@ public class ChangeRecord extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            // TODO add your handling code here:
-           // Controller.changeRecord(r.getId(), jTextField2.getText(), jTextField1.getText(), jTextField3.getText(), jTextField4.getText());
-           r.setName(jTextField2.getText());
-           r.setTime(jTextField1.getText());
-           r.setDescription(jTextField3.getText());
-           r.setContacts(jTextField4.getText());
-           Controller.changeRecord(r);
-           Controller.updateTable();
+            r.setName(jTextField2.getText());
+            r.setTime(jTextField1.getText());
+            r.setDescription(jTextField3.getText());
+            r.setContacts(jTextField4.getText());
+            Controller.changeRecord(r);
+            Controller.updateTable();
         } catch (IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         } catch (InvalidRecordFieldException ex) {
@@ -190,6 +183,7 @@ public class ChangeRecord extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new ChangeRecord().setVisible(true);
             }

@@ -7,10 +7,6 @@ package model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.chart.PieChart.Data;
 
 /**
  *
@@ -18,27 +14,18 @@ import javafx.scene.chart.PieChart.Data;
  */
 public class DataCheck {
 
-    private static SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private static final SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public static boolean nameCheck(String name) {
-        if (name.length() > 15) {
-            return false;
-        }
-        return true;
+        return name.length() <= 15;
     }
 
     public static boolean descriptionCheck(String description) {
-        if (description.length() > 30) {
-            return false;
-        }
-        return true;
+        return description.length() <= 30;
     }
 
     public static boolean contactsCheck(String contacts) {
-        if (contacts.length() > 15) {
-            return false;
-        }
-        return true;
+        return contacts.length() <= 15;
     }
 
     public static boolean timeCheck(String time) {
@@ -82,9 +69,9 @@ public class DataCheck {
                 return false;
             }
 
-        } catch (Exception ex) {
+        } catch (NumberFormatException | ParseException ex) {
+            return false;
         }
-
         return false;
     }
 }

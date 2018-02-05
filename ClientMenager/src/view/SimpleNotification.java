@@ -8,9 +8,8 @@ package view;
 import model.Record;
 import clientmenager.Controller;
 import exceptions.InvalidRecordFieldException;
+import java.awt.HeadlessException;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -28,7 +27,7 @@ public class SimpleNotification extends javax.swing.JFrame {
         initComponents();
     }
 
-    public SimpleNotification(int nu, Record rec) {
+    public SimpleNotification(Record rec) {
         initComponents();
         record = rec;
         jTextField1.setText(rec.getTimeString());
@@ -154,49 +153,35 @@ public class SimpleNotification extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            Controller.list.remove(record.getId());
-         //   Controller.deleteRecord(record.getId());
-          Controller.deleteRecord(record);
-        } catch (IOException ex) {
-            Logger.getLogger(SimpleNotification.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SimpleNotification.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidRecordFieldException ex) {
-            Logger.getLogger(SimpleNotification.class.getName()).log(Level.SEVERE, null, ex);
+            Controller.stopExposing(record.getId());
+            Controller.deleteRecord(record);
+        } catch (IOException | ClassNotFoundException | InvalidRecordFieldException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            Controller.list.remove(record.getId());
-           // String result = Controller.changeRecord(record.getId(), jTextField2.getText(), jTextField5.getText(), jTextField3.getText(), jTextField4.getText());
-           record.setName(jTextField2.getText());
-           record.setTime(jTextField5.getText());
-           record.setDescription(jTextField3.getText());
-           record.setContacts(jTextField4.getText());
-           String result = Controller.changeRecord(record);
-            if (result.equals("OK")) {                
+            Controller.stopExposing(record.getId());
+            record.setName(jTextField2.getText());
+            record.setTime(jTextField5.getText());
+            record.setDescription(jTextField3.getText());
+            record.setContacts(jTextField4.getText());
+            String result = Controller.changeRecord(record);
+            if (result.equals("OK")) {
                 Controller.updateTable();
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, result);
             }
-        } catch (Exception ex) {
+        } catch (InvalidRecordFieldException | HeadlessException | IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         } finally {
             this.dispose();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-//    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-//        // TODO add your handling code here:
-//        Calendar instance = Calendar.getInstance();
-//        instance.setTime(currentRec.getTime()); 
-//        instance.add(Calendar.MINUTE,10);
-//        currentRec.setTimeDate(instance.getTime());
-//        //закрыть
-//    }                                   
     /**
      * @param args the command line arguments
      */
@@ -227,6 +212,7 @@ public class SimpleNotification extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new SimpleNotification().setVisible(true);
             }
