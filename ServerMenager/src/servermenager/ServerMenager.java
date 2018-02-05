@@ -109,7 +109,7 @@ public class ServerMenager {
                 //Change
                 case 'C': {
 
-//                    id = in.readUTF();
+//                    String id = in.readUTF();
 //                    String name = in.readUTF();
 //                    String time = in.readUTF();
 //                    String des = in.readUTF();
