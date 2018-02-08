@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+<<<<<<< HEAD
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/USER/Documents/GitHub/taskMenagerClientServer/ServerMenager/src/model/Record.java</file>
             <file>file:/C:/Users/USER/Documents/GitHub/taskMenagerClientServer/ServerMenager/src/servermenager/ServerMenager.java</file>
+=======
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Кристина/Documents/GitHub/taskMenagerClientServer/ServerMenager/src/model/Record.java</file>
+            <file>file:/C:/Users/Кристина/Documents/GitHub/taskMenagerClientServer/ServerMenager/src/servermenager/ServerMenager.java</file>
+>>>>>>> 5234384e7697ee0d4caa757304301ea1aba7557f
         </group>
     </open-files>
 </project-private>
