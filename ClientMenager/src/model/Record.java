@@ -5,8 +5,6 @@
  */
 package model;
 
-import clientmenager.DataCheck;
-import clientmenager.DataCheck;
 import exceptions.InvalidRecordFieldException;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -18,15 +16,13 @@ import java.util.UUID;
  *
  * @author USER
  */
-
-public class Record implements Comparable,Serializable {
-
+public class Record implements Comparable, Serializable {
 
     private String id;
     private String name;
     private String description;
     private Date time;
-    public static final SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public static final SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private String contacts;
 
     public Record() {
@@ -41,17 +37,19 @@ public class Record implements Comparable,Serializable {
         if (DataCheck.nameCheck(n)) {
             if (DataCheck.descriptionCheck(d)) {
                 if (DataCheck.contactsCheck(c)) {
-
-                    name = n;
-                    description = d;
-                    contacts = c;
-                    try {
-                        time = dateTimeFormatter.parse(t);
-                    } catch (ParseException e) {
-                        time = new Date();
+                    if (DataCheck.timeCheck(t)) {
+                        name = n;
+                        description = d;
+                        contacts = c;
+                        try {
+                            time = DATETIMEFORMATTER.parse(t);
+                        } catch (ParseException e) {
+                            time = new Date();
+                        }
+                        id = UUID.randomUUID().toString();
+                    } else {
+                        throw new InvalidRecordFieldException("Неправильный формат даты или прошедшее время. дд-мм-гггг чч:мм");
                     }
-                    id = UUID.randomUUID().toString();
-
                 } else {
                     throw new InvalidRecordFieldException("Длина поля контактов не должна превышать 15 символов.");
                 }
@@ -71,7 +69,7 @@ public class Record implements Comparable,Serializable {
     public void setTime(String t) throws InvalidRecordFieldException {
         if (DataCheck.timeCheck(t)) {
             try {
-                time = dateTimeFormatter.parse(t);
+                time = DATETIMEFORMATTER.parse(t);
             } catch (ParseException e) {
                 time = new Date();
             }
@@ -129,7 +127,7 @@ public class Record implements Comparable,Serializable {
     }
 
     public String getTimeString() {
-        return dateTimeFormatter.format(time);
+        return DATETIMEFORMATTER.format(time);
     }
 
     @Override
