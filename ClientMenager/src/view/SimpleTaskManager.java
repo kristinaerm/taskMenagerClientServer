@@ -21,11 +21,14 @@ import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.ToolTipManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -294,6 +297,8 @@ public class SimpleTaskManager extends javax.swing.JFrame {
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
+       
+
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     public static void updateNotification() {
