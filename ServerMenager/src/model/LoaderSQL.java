@@ -74,7 +74,7 @@ public class LoaderSQL implements Loader {
 //создаем statement для запроса
         Statement st = con.createStatement();
         st.executeUpdate("INSERT INTO task (id_task, id_taskLog, name_task,description,contacts,time_task) VALUES (idTask, idTaskLog, name,description,contacts,time)");
-        st.executeUpdate("INSERT INTO usertask (id_task) VALUES (idTask)");
+    
         } catch (ClassNotFoundException ex) {
            Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
        }
@@ -96,7 +96,27 @@ public class LoaderSQL implements Loader {
 //создаем statement для запроса
         Statement st = con.createStatement();
         st.executeUpdate("INSERT INTO task (id_user, login, password) VALUES (idUser, passworduser,loginuser)");
-        st.executeUpdate("INSERT INTO usertask (id_user) VALUES (idUser)");
+
+        } catch (ClassNotFoundException ex) {
+           Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (SQLException ex) {
+           Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       con.close();
+}
+       public void addDataInTableUserTask(String idUser,String idTask) throws SQLException
+{
+        try {
+           Class.forName("oracle.jdbc.OracleDriver");
+      
+            String url="jdbc:oracle:thin:@localhost:1521:XE";;
+            String login="data";
+            String password="1";
+            con= DriverManager.getConnection(url, login, password);
+            System.out.println("Connection Established");
+//создаем statement для запроса
+        Statement st = con.createStatement();
+        st.executeUpdate("INSERT INTO usertask (id_user,id_task) VALUES (idUser,idTask)");
         } catch (ClassNotFoundException ex) {
            Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
        } catch (SQLException ex) {
