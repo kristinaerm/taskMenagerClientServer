@@ -34,10 +34,20 @@ public class LoaderSQL implements Loader {
     private static final String LOGIN = "data";
     private static final String PASSWORD = "1";
     private static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";;
-
+//метод записи в базу данных
     @Override
     public void addUser(Document document, User us) throws FileNotFoundException, TransformerException {
-
+        try {
+            clearDatabase(us);
+            addDataInTableUser(us.getId(),us.getPassword(),us.getLogin());
+            for(int i=0;i<us.getTaskLog().getNumberOfRecords();i++)
+            {
+                addDataInTableTask(us.getTaskLog().getRecord(i).getId(),us.getTaskLog().getRecord(i).getName(),us.getTaskLog().getRecord(i).getTimeString(),us.getTaskLog().getRecord(i).getContacts(),us.getTaskLog().getRecord(i).getDescription());
+                addDataInTableUserTask(us.getId(),us.getTaskLog().getRecord(i).getId());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public User readDocument(Document document, String log, String pass) throws SQLException, InvalidRecordFieldException {
@@ -230,6 +240,16 @@ public class LoaderSQL implements Loader {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         con.close();
+    
+    }
+    public void clearDatabase(User us) throws SQLException
+    {
+        deleteDataInTableUser(us.getId());
+        for(int i=0;i<us.getTaskLog().getNumberOfRecords();i++)
+        {
+            deleteDataInTableTask(us.getTaskLog().getRecord(i).getId());
+            deleteDataInTableUserTask(us.getId(), us.getTaskLog().getRecord(i).getId());
+        }
     }
 
     @Override
