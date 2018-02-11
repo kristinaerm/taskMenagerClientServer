@@ -5,13 +5,17 @@
  */
 package model;
 
+import exceptions.InvalidRecordFieldException;
 import interfaces.Loader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
@@ -46,9 +50,50 @@ public class LoaderSQL implements Loader {
         }
     }
 
-    @Override
-    public User readDocument(Document document) throws ParserConfigurationException, SAXException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public User readDocument(Document document, String log, String pass) throws SQLException, InvalidRecordFieldException {
+        User user = null;
+        try {
+            Class.forName("oracle.jdbc.OracleDriver");
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+            System.out.println("Connection Established");
+            Statement st;
+            ResultSet rs;
+            try {
+                st = con.createStatement();
+                rs = st.executeQuery("SELECT id_user FROM users WHERE login = " + log + " and password = " + pass);
+                String id_user = rs.getString("id_user");
+                rs.close();
+                st.close();
+                
+                st = con.createStatement();
+                rs = st.executeQuery("SELECT id_task FROM usertask WHERE id_user = " + id_user);
+                LinkedList <String> id_tasks = new LinkedList();
+                while (rs.next()) {
+                    id_tasks.add(rs.getString("id_task"));
+                }
+                rs.close();
+                st.close();
+                
+                LinkedList<Record> records = new LinkedList();
+                Record rec;
+                for (int i = 0; i < id_tasks.size(); i++) {
+                    st = con.createStatement();
+                    rs = st.executeQuery("SELECT name_task,description,contacts,time_task FROM task WHERE id_task = " + id_tasks.get(i));
+                    rec = new Record(rs.getString("name_task"), rs.getString("description"), rs.getString("time_task"), rs.getString("contacts"));
+                    records.add(rec);
+                    rs.close();
+                    st.close();
+                }
+                
+                user = new User(id_user, log, pass, records);
+                
+            } finally {
+                con.close();
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return user;
     }
 
     @Override
@@ -82,11 +127,12 @@ public class LoaderSQL implements Loader {
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
-            st.executeUpdate("INSERT INTO task (id_task, name_task,description,contacts,time_task) VALUES (idTask, idTaskLog, name,description,contacts,time)");
-
+            st.executeUpdate("INSERT INTO task (id_task, name_task,description,contacts,time_task) VALUES ("+idTask+", "+name+", "+description+", "+contacts+","+time+")");
+            st.close();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         con.close();
     }
 
@@ -97,8 +143,8 @@ public class LoaderSQL implements Loader {
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
-            st.executeUpdate("INSERT INTO users (id_user, login, PASSWORD) VALUES (idUser, passworduser,loginuser)");
-
+            st.executeUpdate("INSERT INTO users (id_user, login, password) VALUES ("+idUser+", "+passworduser+","+loginuser+")");
+            st.close();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -112,7 +158,8 @@ public class LoaderSQL implements Loader {
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
-            st.executeUpdate("INSERT INTO usertask (id_user,id_task) VALUES (idUser,idTask)");
+            st.executeUpdate("INSERT INTO usertask (id_user,id_task) VALUES ("+idUser+","+idTask+")");
+            st.close();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -127,6 +174,7 @@ public class LoaderSQL implements Loader {
             //создаем statement для запроса
             Statement st = con.createStatement();
             st.executeUpdate("DELETE FROM task WHERE id_task="+idTask);
+            st.close();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -141,7 +189,7 @@ public class LoaderSQL implements Loader {
             //создаем statement для запроса
             Statement st = con.createStatement();
             st.executeUpdate("DELETE FROM users WHERE idUser="+idUser);
-
+            st.close();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -156,6 +204,7 @@ public class LoaderSQL implements Loader {
             //создаем statement для запроса
             Statement st = con.createStatement();
             st.executeUpdate("DELETE FROM usertask WHERE (idUser = "+idUser+" AND id_task = "+idTask + ")");
+            st.close();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -170,6 +219,7 @@ public class LoaderSQL implements Loader {
             //создаем statement для запроса
             Statement st = con.createStatement();
             st.executeUpdate("UPDATE task SET name_task = "+name+", description = "+description+",contacts = "+contacts+",time_task = "+time+"WHERE id_task = "+idTask);
+            st.close();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -184,8 +234,8 @@ public class LoaderSQL implements Loader {
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
-            st.executeUpdate("UPDATE users SET login = "+loginuser+", PASSWORD = "+passworduser+" WHERE idUser = "+idUser);
-
+            st.executeUpdate("UPDATE users SET login = "+loginuser+", password = "+passworduser+" WHERE idUser = "+idUser);
+            st.close();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -200,5 +250,10 @@ public class LoaderSQL implements Loader {
             deleteDataInTableTask(us.getTaskLog().getRecord(i).getId());
             deleteDataInTableUserTask(us.getId(), us.getTaskLog().getRecord(i).getId());
         }
+    }
+
+    @Override
+    public User readDocument(Document document) throws ParserConfigurationException, SAXException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
