@@ -160,7 +160,6 @@ public class LoaderSQL implements Loader {
             //создаем statement для запроса
             Statement st = con.createStatement();
             st.executeUpdate("UPDATE task SET name_task = "+name+", description = "+description+",contacts = "+contacts+",time_task = "+time+"WHERE id_task = "+idTask);
-            st.executeUpdate("UPDATE task SET  name_task = "+name+", description = "+description+",contacts = "+contacts+",time_task = "+time+"WHERE id_task = "+idTask);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
