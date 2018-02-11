@@ -44,7 +44,7 @@ public class ServerMenager {
         Document document = documentBuilder.parse("other.xml");
         Loaders load = new Loaders();
         load.setLoaders('X');
-       // load.setLoaders('S');//для записи в БД
+       // load.setLoaders('S');//для записи в БД 
         User u = load.readDocument(document);
     
         TaskLog currentTaskLog = u.getTaskLog();
