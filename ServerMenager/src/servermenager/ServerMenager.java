@@ -45,6 +45,7 @@ public class ServerMenager {
         Loaders load = new Loaders();
         load.setLoaders('X');
         User u = load.readDocument(document);
+    
         TaskLog currentTaskLog = u.getTaskLog();
 
         ObjectInputStream in = new ObjectInputStream(client.getInputStream());
