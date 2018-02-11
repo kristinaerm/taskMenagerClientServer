@@ -26,7 +26,10 @@ import org.xml.sax.SAXException;
  */
 public class LoaderSQL implements Loader {
 
-    Connection con = null;
+    private Connection con = null;
+    private static final String LOGIN = "data";
+    private static final String PASSWORD = "1";
+    private static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";;
 
     @Override
     public void addUser(Document document, User us) throws FileNotFoundException, TransformerException {
@@ -42,17 +45,16 @@ public class LoaderSQL implements Loader {
     public void writeDocument(Document document) throws TransformerConfigurationException, FileNotFoundException, TransformerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-<<<<<<< HEAD
+    
 //    public Connection connection() throws SQLException
 //    {
 //        Connection con =null;
 //        try {
 //            Class.forName("oracle.jdbc.OracleDriver");
-//            String url="jdbc:oracle:thin:@localhost:1521:XE";;
-//            String login="data";
-//            String password="1";
-//            con= DriverManager.getConnection(url, login, password);
+//            String URL="jdbc:oracle:thin:@localhost:1521:XE";;
+//            String LOGIN="data";
+//            String PASSWORD="1";
+//            con= DriverManager.getConnection(URL, LOGIN, PASSWORD);
 //            System.out.println("Connection Established");
 //        } catch (ClassNotFoundException ex) {
 //            Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,24 +68,9 @@ public class LoaderSQL implements Loader {
     public void addDataInTableTask(String idTask, String name, String time, String contacts, String description) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-            String login = "data";
-            String password = "1";
-=======
-
-
-
-    public void addDataInTableTask(String idTask, String idTaskLog, String name, String time, String contacts, String description,String login,String password) throws SQLException {
-        try {
-            Class.forName("oracle.jdbc.OracleDriver");
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-//            String login = "data";
-//            String password = "1";
-
->>>>>>> 5f8bff226d6da1aa57c50b6aa4fc6e96757087c0
-            con = DriverManager.getConnection(url, login, password);
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             System.out.println("Connection Established");
-//создаем statement для запроса
+            //создаем statement для запроса
             Statement st = con.createStatement();
             st.executeUpdate("INSERT INTO task (id_task, name_task,description,contacts,time_task) VALUES (idTask, idTaskLog, name,description,contacts,time)");
 
@@ -96,23 +83,11 @@ public class LoaderSQL implements Loader {
     public void addDataInTableUser(String idUser, String passworduser, String loginuser) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-<<<<<<< HEAD
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";
-            String login = "data";
-            String password = "1";
-=======
-
-
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-//            String login = "data";
-//            String password = "1";
-
->>>>>>> 5f8bff226d6da1aa57c50b6aa4fc6e96757087c0
-            con = DriverManager.getConnection(url, login, password);
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
-            st.executeUpdate("INSERT INTO users (id_user, login, password) VALUES (idUser, passworduser,loginuser)");
+            st.executeUpdate("INSERT INTO users (id_user, login, PASSWORD) VALUES (idUser, passworduser,loginuser)");
 
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,19 +98,7 @@ public class LoaderSQL implements Loader {
     public void addDataInTableUserTask(String idUser, String idTask) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-<<<<<<< HEAD
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";
-            String login = "data";
-            String password = "1";
-=======
-
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";
-     
-//            String login = "data";
-//            String password = "1";
-
->>>>>>> 5f8bff226d6da1aa57c50b6aa4fc6e96757087c0
-            con = DriverManager.getConnection(url, login, password);
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
@@ -149,18 +112,7 @@ public class LoaderSQL implements Loader {
     public void deleteDataInTableTask(String idTask) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-<<<<<<< HEAD
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";
-            String login = "data";
-            String password = "1";
-=======
-            
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-//            String login = "data";
-//            String password = "1";
-
->>>>>>> 5f8bff226d6da1aa57c50b6aa4fc6e96757087c0
-            con = DriverManager.getConnection(url, login, password);
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
@@ -174,18 +126,7 @@ public class LoaderSQL implements Loader {
     public void deleteDataInTableUser(String idUser) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-<<<<<<< HEAD
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";
-            String login = "data";
-            String password = "1";
-=======
-
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-//            String login = "data";
-//            String password = "1";
-
->>>>>>> 5f8bff226d6da1aa57c50b6aa4fc6e96757087c0
-            con = DriverManager.getConnection(url, login, password);
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
@@ -200,18 +141,7 @@ public class LoaderSQL implements Loader {
     public void deleteDataInTableUserTask(String idUser, String idTask) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-<<<<<<< HEAD
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";
-            String login = "data";
-            String password = "1";
-=======
-
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-//            String login = "data";
-//            String password = "1";
-
->>>>>>> 5f8bff226d6da1aa57c50b6aa4fc6e96757087c0
-            con = DriverManager.getConnection(url, login, password);
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
@@ -222,21 +152,15 @@ public class LoaderSQL implements Loader {
         con.close();
     }
     
-        public void changeDataInTableTask(String idTask, String name, String time, String contacts, String description,String login,String password) throws SQLException {
+        public void changeDataInTableTask(String idTask, String name, String time, String contacts, String description) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-         
-            con = DriverManager.getConnection(url, login, password);
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
-<<<<<<< HEAD
             st.executeUpdate("UPDATE task SET name_task = "+name+", description = "+description+",contacts = "+contacts+",time_task = "+time+"WHERE id_task = "+idTask);
-=======
             st.executeUpdate("UPDATE task SET  name_task = "+name+", description = "+description+",contacts = "+contacts+",time_task = "+time+"WHERE id_task = "+idTask);
->>>>>>> 5f8bff226d6da1aa57c50b6aa4fc6e96757087c0
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -244,16 +168,14 @@ public class LoaderSQL implements Loader {
     }
    
     
-    public void changeDataInTableUser(String idUser, String passworduser, String loginuser,String login,String password) throws SQLException {
+    public void changeDataInTableUser(String idUser, String passworduser, String loginuser) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";
- 
-            con = DriverManager.getConnection(url, login, password);
+            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             System.out.println("Connection Established");
             //создаем statement для запроса
             Statement st = con.createStatement();
-            st.executeUpdate("UPDATE users SET login = "+loginuser+", password = "+passworduser+" WHERE idUser = "+idUser);
+            st.executeUpdate("UPDATE users SET login = "+loginuser+", PASSWORD = "+passworduser+" WHERE idUser = "+idUser);
 
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
