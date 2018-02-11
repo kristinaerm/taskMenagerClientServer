@@ -43,32 +43,12 @@ public class LoaderSQL implements Loader {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-//    public Connection connection() throws SQLException
-//    {
-//        Connection con =null;
-//        try {
-//            Class.forName("oracle.jdbc.OracleDriver");
-//            String url="jdbc:oracle:thin:@localhost:1521:XE";;
-//            String login="data";
-//            String password="1";
-//            con= DriverManager.getConnection(url, login, password);
-//            System.out.println("Connection Established");
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
-//        }finally{
-//            con.close();
-//        }
-//        return con;
-//    }
-    public void addDataInTableTask(String idTask, String idTaskLog, String name, String time, String contacts, String description) throws SQLException {
+    public void addDataInTableTask(String idTask, String idTaskLog, String name, String time, String contacts, String description,String login,String password) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-
             String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-            String login = "data";
-            String password = "1";
+//            String login = "data";
+//            String password = "1";
             con = DriverManager.getConnection(url, login, password);
             System.out.println("Connection Established");
 //создаем statement для запроса
@@ -81,13 +61,13 @@ public class LoaderSQL implements Loader {
         con.close();
     }
 
-    public void addDataInTableUser(String idUser, String passworduser, String loginuser) throws SQLException {
+    public void addDataInTableUser(String idUser, String passworduser, String loginuser,String login,String password) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
 
             String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-            String login = "data";
-            String password = "1";
+//            String login = "data";
+//            String password = "1";
             con = DriverManager.getConnection(url, login, password);
             System.out.println("Connection Established");
             //создаем statement для запроса
@@ -102,13 +82,12 @@ public class LoaderSQL implements Loader {
         con.close();
     }
 
-    public void addDataInTableUserTask(String idUser, String idTask) throws SQLException {
+    public void addDataInTableUserTask(String idUser, String idTask,String login,String password) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-
             String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-            String login = "data";
-            String password = "1";
+//            String login = "data";
+//            String password = "1";
             con = DriverManager.getConnection(url, login, password);
             System.out.println("Connection Established");
             //создаем statement для запроса
@@ -122,13 +101,13 @@ public class LoaderSQL implements Loader {
         con.close();
     }
 
-    public void deleteDataInTableTask(String idTask) throws SQLException {
+    public void deleteDataInTableTask(String idTask,String login,String password) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
             
             String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-            String login = "data";
-            String password = "1";
+//            String login = "data";
+//            String password = "1";
             con = DriverManager.getConnection(url, login, password);
             System.out.println("Connection Established");
             //создаем statement для запроса
@@ -142,12 +121,12 @@ public class LoaderSQL implements Loader {
         con.close();
     }
     
-    public void deleteDataInTableUser(String idUser) throws SQLException {
+    public void deleteDataInTableUser(String idUser,String login,String password) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
             String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-            String login = "data";
-            String password = "1";
+//            String login = "data";
+//            String password = "1";
             con = DriverManager.getConnection(url, login, password);
             System.out.println("Connection Established");
             //создаем statement для запроса
@@ -162,12 +141,12 @@ public class LoaderSQL implements Loader {
         con.close();
     }
     
-    public void deleteDataInTableUserTask(String idUser, String idTask) throws SQLException {
+    public void deleteDataInTableUserTask(String idUser, String idTask,String login,String password) throws SQLException {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
             String url = "jdbc:oracle:thin:@localhost:1521:XE";;
-            String login = "data";
-            String password = "1";
+//            String login = "data";
+//            String password = "1";
             con = DriverManager.getConnection(url, login, password);
             System.out.println("Connection Established");
             //создаем statement для запроса
@@ -180,5 +159,6 @@ public class LoaderSQL implements Loader {
         }
         con.close();
     }
+   
     
 }
