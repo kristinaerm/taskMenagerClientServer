@@ -138,19 +138,23 @@ public class ChangeRecord extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            r.setName(jTextField2.getText());
-            r.setTime(jTextField1.getText());
-            r.setDescription(jTextField3.getText());
-            r.setContacts(jTextField4.getText());
-            Controller.changeRecord(r);
-            Controller.updateTable();
-        } catch (IOException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        } catch (InvalidRecordFieldException ex) {
-            Logger.getLogger(ChangeRecord.class.getName()).log(Level.SEVERE, null, ex);
+        if ((!jTextField2.getText().equals("")) && (!jTextField1.getText().equals("")) && (!jTextField3.getText().equals("")) && (!jTextField4.getText().equals(""))) {
+            try {
+                r.setName(jTextField2.getText());
+                r.setTime(jTextField1.getText());
+                r.setDescription(jTextField3.getText());
+                r.setContacts(jTextField4.getText());
+                Controller.changeRecord(r);
+                Controller.updateTable();
+                this.dispose();
+            } catch (IOException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } catch (InvalidRecordFieldException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }            
+        } else {
+            JOptionPane.showMessageDialog(null, "Все поля должны быть заполнены.");
         }
-        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
