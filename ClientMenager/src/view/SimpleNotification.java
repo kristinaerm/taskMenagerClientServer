@@ -22,11 +22,11 @@ public class SimpleNotification extends javax.swing.JFrame {
      * Creates new form NotificationInterface
      */
     private Record record;
-
+    
     public SimpleNotification() {
         initComponents();
     }
-
+    
     public SimpleNotification(Record rec) {
         initComponents();
         record = rec;
@@ -162,23 +162,28 @@ public class SimpleNotification extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
-            Controller.stopExposing(record.getId());
-            record.setName(jTextField2.getText());
-            record.setTime(jTextField5.getText());
-            record.setDescription(jTextField3.getText());
-            record.setContacts(jTextField4.getText());
-            String result = Controller.changeRecord(record);
-            if (result.equals("OK")) {
-                Controller.updateTable();
+        if (!jTextField5.getText().equals("")) {            
+            try {
+                Controller.stopExposing(record.getId());
+                record.setName(jTextField2.getText());
+                record.setTime(jTextField5.getText());
+                record.setDescription(jTextField3.getText());
+                record.setContacts(jTextField4.getText());
+                String result = Controller.changeRecord(record);
+                if (result.equals("OK")) {
+                    Controller.updateTable();
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, result);
+                }
+            } catch (InvalidRecordFieldException | HeadlessException | IOException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } finally {
                 this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, result);
             }
-        } catch (InvalidRecordFieldException | HeadlessException | IOException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        } finally {
-            this.dispose();
+        }
+        else {
+           JOptionPane.showMessageDialog(null, "Укажите время!"); 
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
