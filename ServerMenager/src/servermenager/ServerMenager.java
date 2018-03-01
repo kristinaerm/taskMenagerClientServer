@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,7 +33,7 @@ public class ServerMenager {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException, InvalidRecordFieldException, SAXException, ParserConfigurationException, ClassNotFoundException, FileNotFoundException, TransformerException {
+    public static void main(String[] args) throws IOException, InvalidRecordFieldException, SAXException, ParserConfigurationException, ClassNotFoundException, FileNotFoundException, TransformerException, SQLException {
         // TODO code application logic here
         ServerSocket serverSoket = new ServerSocket(1024);
 
@@ -41,12 +42,12 @@ public class ServerMenager {
         int countTask = 0;
         Record rec;
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document document = documentBuilder.parse("other.xml");
+       // Document document = documentBuilder.parse("other.xml");
         Loaders load = new Loaders();
-        load.setLoaders('X');
-       // load.setLoaders('S');//для записи в БД 
-        User u = load.readDocument(document);
-    
+      //  load.setLoaders('X');
+       load.setLoaders('S');//для записи в БД 
+        //User u = load.readDocument(document);
+        User u=load.readDocument(null, null);
         TaskLog currentTaskLog = u.getTaskLog();
 
         ObjectInputStream in = new ObjectInputStream(client.getInputStream());

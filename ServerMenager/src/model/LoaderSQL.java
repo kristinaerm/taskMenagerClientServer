@@ -33,7 +33,7 @@ public class LoaderSQL implements Loader {
     private Connection con = null;
     private static final String LOGIN = "data";
     private static final String PASSWORD = "1";
-    private static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";;
+    private static final String URL = "jdbc:oracle:thin:@localhost:1521:XE [data на ORACLE_OCM]";;
 //метод записи в базу данных
     @Override
     public void addUser(Document document, User us) throws FileNotFoundException, TransformerException {
@@ -50,11 +50,12 @@ public class LoaderSQL implements Loader {
         }
     }
 
-    public User readDocument(Document document, String log, String pass) throws SQLException, InvalidRecordFieldException {
+    @Override
+    public User readDocument( String log, String pass) throws SQLException, InvalidRecordFieldException {
         User user = null;
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+             con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             System.out.println("Connection Established");
             Statement st;
             ResultSet rs;

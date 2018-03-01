@@ -5,9 +5,11 @@
  */
 package model;
 
+import exceptions.InvalidRecordFieldException;
 import interfaces.Loader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -44,5 +46,9 @@ public class Loaders implements Loader {
     public void writeDocument(Document document) throws TransformerConfigurationException, FileNotFoundException, TransformerException {
         loader.writeDocument(document);
     }
+     public User readDocument( String log, String pass) throws SQLException, InvalidRecordFieldException {
+       return  loader.readDocument(log, pass);
+     }
+     }
 
-}
+

@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -169,6 +170,10 @@ public class LoaderXML implements Loader {
         StreamResult result = new StreamResult(fos);
         tr.transform(source, result);
 
+    }
+
+    public User readDocument( String log, String pass) throws SQLException, InvalidRecordFieldException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
