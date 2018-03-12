@@ -16,13 +16,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
+import oracle.jdbc.driver.OracleDriver;
+import oracle.jdbc.pool.OracleDataSource;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import java.beans.PropertyVetoException;
 
 /**
  *
@@ -33,7 +41,7 @@ public class LoaderSQL implements Loader {
     private Connection con = null;
     private static final String LOGIN = "data";
     private static final String PASSWORD = "1";
-    private static final String URL = "jdbc:oracle:thin:@localhost:1521:XE [data на ORACLE_OCM]";;
+    private static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
 //метод записи в базу данных
     @Override
     public void addUser(Document document, User us) throws FileNotFoundException, TransformerException {
@@ -54,8 +62,13 @@ public class LoaderSQL implements Loader {
     public User readDocument( String log, String pass) throws SQLException, InvalidRecordFieldException {
         User user = null;
         try {
-            Class.forName("oracle.jdbc.OracleDriver");
-             con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+    
+          Class.forName("oracle.jdbc.OracleDriver");
+          InitialContext ctx = new InitialContext();
+          DataSource ds = (DataSource) ctx.lookup("jdbc/myoracle");//
+           con = ds.getConnection();
+          //   con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "data", "1");
+           // con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
             System.out.println("Connection Established");
             Statement st;
             ResultSet rs;
@@ -91,7 +104,13 @@ public class LoaderSQL implements Loader {
             } finally {
                 con.close();
             }
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException ex) {
+            Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
+        }/* catch (NamingException ex) {
+            Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
+      }*/ catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
             Logger.getLogger(LoaderSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
